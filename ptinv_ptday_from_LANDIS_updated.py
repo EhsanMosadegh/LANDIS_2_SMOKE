@@ -6,14 +6,6 @@
 # email: ehsan.mosadegh@dri.edu
 # NOTES:
 #   filters= filter_NoZero ; filter_Month
-#   - how to write a log file from running the code?n
-#   - how add dummy data for days w/o any data?
-#   - how add header to the top of the file?
-#   - how to sort a DF in place? sort_values() in place?
-#	- each unique fire is defined by = region+fireID
-# NEED TODO:
-#	- add header row
-#	- add spinup day from previous month to both PTDAY and PTINV
 #
 ############################################################################
 
@@ -22,7 +14,7 @@ import pandas as pd
 import datetime as dt
 
 #############################################################################
-# first set run parameters here: #
+# first, set run parameters here:
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
@@ -33,7 +25,7 @@ fire_yr = 14  # year w/o century                          |
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
 input_FileName = 'Year25latlon.csv'#                      |
 favorite_month = '08'#                                    |
-write_output = 'no' #   (yes, no)                        |
+write_output = 'no' #   (yes, no)                         |
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
@@ -190,7 +182,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
                     'SCC_total'   : [POL_list_4SCC_total   , POL_dict_4SCC_total]
                     }
 
-    for LANDISrow in range(total_row_no):  # i=LANDIS row number
+    for LANDISrow in range(total_row_no):
 
         if (LANDISrow/100)==int(LANDISrow/100):
             print('-----------> row no.=%s from %s' %(LANDISrow,total_row_no))
@@ -233,14 +225,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             elif 1 <= LANDIS_Jday <= 99:
 
-                fire_Jdate = str(LANDIS_Jday).rjust(3, '0')  # 3 is string length in total! also, there should be a space before '0'!
+                fire_Jdate = str(LANDIS_Jday).rjust(3, '0')
 
             else:
 
                 fire_Jdate = str(LANDIS_Jday)
 
             yy_jjj = str(fire_yr) + fire_Jdate
-            day_dt = dt.datetime.strptime(yy_jjj , '%y%j').date()  # strptime accepts str
+            day_dt = dt.datetime.strptime(yy_jjj , '%y%j').date()
             day_str = day_dt.strftime('%m/%d/%y')
             DATE = '"'+day_str+'"'  # make this to produce "string_dates" to write out to CSV
             DATE_obj = day_str      # make this to be able to put filter on it later for favorable month

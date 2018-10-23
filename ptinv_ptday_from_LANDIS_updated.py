@@ -270,6 +270,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
 #########################################################################################################
     # modify and filter master DF
+
     print('-> NOTE: pollutant (DATAVALUE) units converted from kg/ha --> tons/day')
     # --- change dtype of BEGHOUR and ENDHOUR columns inside master DF from float->int
     df_master.BEGHOUR = df_master.BEGHOUR.astype(int)
@@ -296,7 +297,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
 
 #########################################################################################################
-    # dates with no-fire data and fake data
+    # dealing with missing dates and fake data
 
     # --- looking for missing jdays
 

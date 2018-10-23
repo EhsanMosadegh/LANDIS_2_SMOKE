@@ -1,5 +1,5 @@
 
-############################################################################
+#########################################################################################################
 # usage: Convert LANDIS-II model output to SMOKE input.
 # date: Sep 20, 2018
 # auther: Ehsan Mosadegh
@@ -7,14 +7,15 @@
 # NOTES:
 #   filters= filter_NoZero ; filter_Month
 #
-############################################################################
+#########################################################################################################
 
 import os
 import pandas as pd
 import datetime as dt
 
-#############################################################################
-# first, set run parameters here:
+#########################################################################################################
+# first, set run parameters here
+
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
@@ -47,6 +48,13 @@ print('| favorite month is = %s         ' %favorite_month)
 print('| fire region is    = %s         ' %region_code)
 print('| write output?     = %s         ' %write_output)
 print('+----------------------------------------------------+')
+
+# first, set run parameters here
+#########################################################################################################
+
+
+#########################################################################################################
+# set pathes, directories, and read in input file
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
 script_dir = work_dir+'/scripts'
@@ -89,6 +97,10 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     df_input_F_NoZero = input_csv[filter_NonZero].copy()
     df_input_F_NoZero = df_input_F_NoZero.reset_index()  # reset is one-time operation; we should update master DF again!
     print('-> non-zero rows were filtered!')
+
+    # set pathes, directories, and read in input file
+#########################################################################################################
+
 
 #########################################################################################################
     # define POL list based on available variables in LANDIS output + S or F labels:

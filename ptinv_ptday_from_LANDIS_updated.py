@@ -31,7 +31,7 @@ write_output = 'no' #   (yes, no)                         |
 #+--------------------------------------------------------+
 mode_ref_index = [      0       ,     1      ]  #         |
 mode_list      = ['SCC_devided' , 'SCC_total']  #         |
-mode      	     = mode_list[mode_index]        #         |
+mode      	 = mode_list[mode_index]          #         |
 jday_list_aug = range(213,244)                  #         |
 #+--------------------------------------------------------+
 

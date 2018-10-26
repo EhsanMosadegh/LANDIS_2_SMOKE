@@ -2,8 +2,8 @@
 ############################################################################
 # usage: Convert LANDIS-II model output to SMOKE input.
 # date: Sep 20, 2018
-# auther: Ehsan Mosadegh
-# email: ehsan.mosadegh@dri.edu
+# auther: Ehsan Mosadegh (ehsanm@dri.edu)
+#
 # NOTES:
 #	- each unique fire is defined by = region+fireID
 # NEED TODO:

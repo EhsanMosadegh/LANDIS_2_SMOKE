@@ -5,11 +5,6 @@
 # auther: Ehsan Mosadegh
 # email: ehsan.mosadegh@dri.edu
 # NOTES:
-#   filters= filter_NoZero ; filter_Month
-#   - how to write a log file from running the code?n
-#   - how add dummy data for days w/o any data?
-#   - how add header to the top of the file?
-#   - how to sort a DF in place? sort_values() in place?
 #	- each unique fire is defined by = region+fireID
 # NEED TODO:
 #	- add header row
@@ -39,7 +34,7 @@ write_output = 'yes' #   (yes, no)                        |
 #+--------------------------------------------------------+
 mode_ref_index = [      0       ,     1      ]  #         |
 mode_list      = ['SCC_devided' , 'SCC_total']  #         |
-mode      	     = mode_list[mode_index]          #         |
+mode      	     = mode_list[mode_index]          #       |
 jday_list_aug = range(213,244)                  #         |
 #+--------------------------------------------------------+
 #############################################################################
@@ -97,15 +92,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define a condition (filter) to filter zero-rows:
 
-    #threshold = 0.00001
-    #filter_NoZero = (input_csv['Heat-25'] != 0) & (input_csv['NOx-Flaming'] != 0) & (input_csv['N2O-Flaming-25'] != 0)
     filter_NoZero = ( input_csv['Day-of-Fire'] != 0 )
     print('-> Julian days with index=0 are cleaned out!')
 
     # --- filter the inputDF and copy the chunck to a new DF
 
     input_csv_filter_NoZero = input_csv[filter_NoZero].copy()
-    input_csv_filter_NoZero = input_csv_filter_NoZero.reset_index()  # reset is one-time operation; we should update master DF again!
+    input_csv_filter_NoZero = input_csv_filter_NoZero.reset_index() 
     print('-> non-zero rows were filtered!')
 
 # set pathes, directory names, read-in data
@@ -118,8 +111,6 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     POL_list_4SCC_devided = ['CO_S','CO_F','CO2_S','CO2_F','CH4_S','CH4_F','SO2_S','SO2_F','NH3_S','NH3_F','NMOC_S','NMOC_F','NOx_S','NOx_F','PM10_S','PM10_S','PM2.5_S','PM2.5_F','heat_flux','acres_burned']
     POL_list_4SCC_total = ['CO_tot','CO2_tot','CH4_tot','SO2_tot','NH3_tot','NMOC_tot','NOx_tot','PM10_tot','PM2.5_tot','heat_flux','acres_burned']
 
-    # header of dictionary: keys= what I define in POL_list_4SCC_devided and as a key; pollutant label based on NEI PTDAY labeling format in DATA column; corresponding value from LANDIS CSV file; SCC=S or F!
-    # -> { keys from POL_list_4SCC_devided: [ POL label from DATA col , DATA-VALUE , SCC ] }
     LANDISrow = 0
     # --- for NEI 2014 - devided SCC mode
     #POL_dict_4SCC_devided = {
@@ -222,7 +213,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             SCC = '"'+SCCmode_POList_mapper[mode][1] [pol] [2]+'"'   # extracts SCC
             #print('-> SCC is = %s' %SCC)
 
-            # --- change units ----------------------------------------------
+            # --- change units ------------------------------------------------
 
             if DATA == '"ACRESBURNED"':
 
@@ -230,12 +221,12 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             elif DATA == '"HFLUX"':
 
-                KW_per_day_pixel = DATAVALUE*pixel_area_in_Ha*10000  # change from KW/m2 to KW/pixel; both per day!
-                BTU_per_day_pixel = KW_per_day_pixel*3412.14  # change from KW/pixel to BTU/pixel; both per day!
+                KW_per_day_pixel = DATAVALUE*pixel_area_in_Ha*10000     # change from KW/m2 to KW/pixel; both per day!
+                BTU_per_day_pixel = KW_per_day_pixel*3412.14            # change from KW/pixel to BTU/pixel; both per day!
                 DATAVALUE = BTU_per_day_pixel
 
             else:
-                DATAVALUE = DATAVALUE/1000  # to change POL units from kg/ha to tons/day
+                DATAVALUE = DATAVALUE/1000                              # to change POL units from kg/ha to tons/day
 
             # --- modify dates from julian to calendar dates ------------------------------------------------
 
@@ -247,17 +238,17 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             if 1 <= LANDIS_Jday <= 99:
 
-                fire_Jdate = str(LANDIS_Jday).rjust(3, '0')  # 3 is string length in total! also, there should be a space before '0'!
+                fire_Jdate = str(LANDIS_Jday).rjust(3, '0')
 
             else:
 
                 fire_Jdate = str(LANDIS_Jday)
 
             yy_jjj = str(fire_yr) + fire_Jdate
-            day_dt = dt.datetime.strptime(yy_jjj , '%y%j').date()  # strptime accepts str
+            day_dt = dt.datetime.strptime(yy_jjj , '%y%j').date() 
             day_str = day_dt.strftime('%m/%d/%y')
-            DATE = '"'+day_str+'"'  # to produce "string_dates" to write out to CSV
-            DATE_obj = day_str      # to be able to put filter on it later for favorable month
+            DATE = '"'+day_str+'"'                                  # to produce "string_dates" to write out to CSV
+            DATE_obj = day_str                                      # to be able to put filter on it later for favorable month
 
             # --- set fire labling/identifying parameters ----------------------
 
@@ -266,8 +257,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- set lat/lon ----------------------
 
-            LAT = input_csv_filter_NoZero['Long'][LANDISrow]  # the file I used had Lat in Long place
-            LON = input_csv_filter_NoZero['Lat'][LANDISrow]   # so I used them in place of each other
+            LAT = input_csv_filter_NoZero['Long'][LANDISrow]        # the file I used had Lat in Long place
+            LON = input_csv_filter_NoZero['Lat'][LANDISrow]         # so I used them in place of each other
 
             # --- fixed parameters ---------------------------------------------
 
@@ -281,7 +272,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- joining section ----------------------------------------------
 
-            new_row = [[FIPS,FIREID,LOCID,SCC,DATA,DATE,DATAVALUE,BEGHOUR,ENDHOUR,LAT,LON,FIRENAME,NFDRSCODE,MATBURNED,HEATCONTENT,DATE_obj,LANDIS_Jday]] # first make a new row; NOTE: define a row of list with [[x,y]]
+            new_row = [[FIPS,FIREID,LOCID,SCC,DATA,DATE,DATAVALUE,BEGHOUR,ENDHOUR,LAT,LON,FIRENAME,NFDRSCODE,MATBURNED,HEATCONTENT,DATE_obj,LANDIS_Jday]] # first make a new row;
             new_df_line = pd.DataFrame( new_row , columns = master_header_list )  # define a DF from a list with columns.
             real_frames_list = [df_master , new_df_line]
             df_master = pd.concat(real_frames_list , axis=0)  # then concat(both DFs together along x-axis=0)
@@ -302,7 +293,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     #list_of_cols = ['BEGHOUR','ENDHOUR']
     #df_master[list_of_cols] = df_master[list_of_cols].astype(int)
-    #->>>>>>>>> I can add <if> syntax later here for each month ###########
+    #->>>>>>>>> I can add <if> later here for each month ###########
 
     # --- change DATE_obj col to new date-time col to filter later
 
@@ -331,7 +322,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define new col headers
 
-    master_header_list_updated = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR','LAT','LON','FIRENAME','NFDRSCODE','MATBURNED','HEATCONTENT','DATE_obj','LANDIS_jday','DATE_date_time'] # DF will be organized bbased on this order!
+    master_header_list_updated = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR','LAT','LON','FIRENAME','NFDRSCODE','MATBURNED','HEATCONTENT','DATE_obj','LANDIS_jday','DATE_date_time'] # DF will be organized based on this order!
 
     # --- define fire date list
 
@@ -368,9 +359,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             # --- preparing jday to dt --------------------------------------------
 
             yy_jjj_str  = str(fire_yr) + str(missing_jday)
-            day_dt      = dt.datetime.strptime(yy_jjj_str , '%y%j')  # strptime( str ) produces dt; need for filtering
-            day_str     = day_dt.strftime('%m/%d/%y')               # change format of dt
-            DATE_fake   = '"'+day_str+'"'                         # make this to produce "string_dates" to write out to CSV; need for CSV file
+            day_dt      = dt.datetime.strptime(yy_jjj_str , '%y%j')    
+            day_str     = day_dt.strftime('%m/%d/%y')                   # change format of dt
+            DATE_fake   = '"'+day_str+'"'                               # make this to produce "string_dates" to write out to CSV; need for CSV file
 
             # --- other fixed fields ----------------------------------------------
 
@@ -387,10 +378,10 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- form fake row --------------------------------------------------
 
-            fake_row = [[FIPS_fake,FIREID_fake,LOCID_fake,SCC_fake,DATA_fake,DATE_fake,DATAVALUE_fake,BEGHOUR_fake,ENDHOUR_fake,LAT_fake,LON_fake,FIRENAME_fake,NFDRSCODE_fake,MATBURNED_fake,HEATCONTENT_fake,day_str,missing_jday,day_dt]] # first make a new row; NOTE: define a row of list with [[x,y]]
-            fake_row_df = pd.DataFrame( fake_row , columns = master_header_list_updated )  # define a DF from a list with columns.
+            fake_row = [[FIPS_fake,FIREID_fake,LOCID_fake,SCC_fake,DATA_fake,DATE_fake,DATAVALUE_fake,BEGHOUR_fake,ENDHOUR_fake,LAT_fake,LON_fake,FIRENAME_fake,NFDRSCODE_fake,MATBURNED_fake,HEATCONTENT_fake,day_str,missing_jday,day_dt]] # first make a new row;
+            fake_row_df = pd.DataFrame( fake_row , columns = master_header_list_updated )   # define a DF from a list with columns.
             fake_frames_list = [ df_master_filtered_month , fake_row_df ]
-            df_master_filtered_month = pd.concat( fake_frames_list , axis=0 )  # then concat(both DFs together along x-axis=0)
+            df_master_filtered_month = pd.concat( fake_frames_list , axis=0 )               # then concat(both DFs together along x-axis=0)
 
     # print number of fire days
     print('-----------------------------------------------------------------')
@@ -414,12 +405,12 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+favorite_month+'_mode_'+mode+'_with'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+favorite_month+'_mode_'+mode+'_with'+DATAVALUE_fake+'.csv' 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+favorite_month+'_mode_'+mode+'_with'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+favorite_month+'_mode_'+mode+'_with'+DATAVALUE_fake+'.csv' 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
     # --- copy a subset=PTINV from df_master
     ptinv_df = df_master_filtered_month[ ptinv_header_list ].copy()
@@ -435,10 +426,10 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # write out output files
 
     if write_output == 'yes':
-        df_master_filtered_month.to_csv( ptday_output_file_FullPath , columns = ptday_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
+        df_master_filtered_month.to_csv( ptday_output_file_FullPath , columns = ptday_header_list , sep=',' , index=False , quoting=3 , quotechar='"' )
         print( '-> output file is written as: %s' %ptday_output_file_name )
 
-        ptinv_df.to_csv( ptinv_output_file_FullPath , columns = ptinv_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
+        ptinv_df.to_csv( ptinv_output_file_FullPath , columns = ptinv_header_list , sep=',' , index=False , quoting=3 , quotechar='"' )
         print( '-> output file is written as: %s' %ptinv_output_file_name )
 
     else:

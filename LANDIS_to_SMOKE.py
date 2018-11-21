@@ -53,7 +53,7 @@ print('+----------------------------------------------------+')
 #print('| mode index is     = %s         ' %mode_index)
 print('| input emission unit is = %s' %POL_input_emis_unit )
 print('| output emission unit is = %s' %POL_output_emis_unit )
-print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit,POL_output_emis_unit,emis_conv_factr_2tone ))
+print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit , POL_output_emis_unit , emis_conv_factr_2tone ))
 print('| run mode is       = %s         ' %mode)
 print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_yr)
@@ -203,7 +203,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     df_master = pd.DataFrame( columns = master_header_list )
 
     total_row_no = input_csv_filter_NoZero.shape[0]
-    print('-> start calculating LANDIS output for %s rows ...' %total_row_no)
+    print('-> start calculating LANDIS conversion for %s rows (fires) ...' %total_row_no)
 
     # loop for each day and for each element inside POL_list_4SCC_devided:
     # maps mode to a list and we have to select the index

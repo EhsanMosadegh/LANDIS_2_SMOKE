@@ -2,15 +2,10 @@
 ############################################################################
 # usage: Convert LANDIS-II model output to SMOKE input.
 # date: Sep 20, 2018
-# auther: Ehsan Mosadegh
-# email: ehsan.mosadegh@dri.edu
+# auther: Ehsan Mosadegh (ehsanm@dri.edu)
+#
 # NOTES:
-#   filters= filter_NoZero ; filter_Month
-#   - how to write a log file from running the code?n
-#   - how add dummy data for days w/o any data?
-#   - how add header to the top of the file?
-#   - how to sort a DF in place? sort_values() in place?
-#	- each unique fire is defined by = region+fireID
+#	- each unique fire is defined by = region + fireID
 # NEED TODO:
 #	- add header row
 #	- add spinup day from previous month to both PTDAY and PTINV
@@ -70,8 +65,9 @@ print('| write output?     = %s         ' %write_output)
 print('+----------------------------------------------------+')
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
-script_dir = work_dir+'/scripts'
-input_dir = work_dir+'/inputs/scenario0_yr25'
+repository_name = 'LANDIS_to_SMOKE'
+script_dir = work_dir+'/github/'+repository_name
+input_dir = work_dir+'/inputs'
 output_dir = work_dir+'/outputs'
 
 if os.path.isdir(work_dir) == True :

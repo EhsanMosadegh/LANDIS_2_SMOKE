@@ -30,7 +30,7 @@ region_code = '"06017"'#                                  |
 fire_yr = 14  # year w/o century
 LANDIS_scenario_yr = 25                           #       |
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
-input_FileName = 'Year25latlon.csv'#                      |
+input_file = 'Year25latlon.csv'#                      |
 favorite_month = '08'#                                    |
 write_output = 'no' #   (yes, no)                        |
 #+--------------------------------------------------------+
@@ -58,7 +58,7 @@ print('| run mode is       = %s         ' %mode)
 print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_yr)
 print('| LANDIS fire scenario year is = %s' %LANDIS_scenario_yr)
-print('| input file is     = %s         ' %input_FileName)
+print('| input file is     = %s         ' %input_file)
 print('| favorite month is = %s         ' %favorite_month)
 print('| fire region is    = %s         ' %region_code)
 print('| write output?     = %s         ' %write_output)
@@ -75,7 +75,7 @@ if os.path.isdir(work_dir) == True :
 else:
     print('-> there is an issue with work directory')
 
-input_FilePath = os.path.join(input_dir , input_FileName)
+input_FilePath = os.path.join(input_dir , input_file)
 
 if os.path.isfile(input_FilePath) == True :
     print('-> input file exists!')

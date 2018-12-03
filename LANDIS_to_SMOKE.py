@@ -28,7 +28,7 @@ POL_output_emis_unit = 'tons'
 emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?  |
 pixel_area_in_Ha = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
 region_code = '"06017"'#                                  |
-fire_yr = 14  # year w/o century
+fire_modeling_yr = 14  # year w/o century
 LANDIS_yr = 30
 LANDIS_Scenario = 1                           #       |
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
@@ -58,7 +58,7 @@ print('| output emission unit is = %s' %POL_output_emis_unit )
 print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit , POL_output_emis_unit , emis_conv_factr_2tone ))
 print('| run mode is       = %s         ' %mode)
 print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
-print('| SMOKE fire year is      = 20%s         ' %fire_yr)
+print('| SMOKE fire year is      = 20%s         ' %fire_modeling_yr)
 print('| LANDIS fire scenario year is = %s' %LANDIS_yr)
 print('| input file is     = %s         ' %input_file)
 print('| modeling month is = %s         ' %modeling_month)
@@ -276,7 +276,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
                 fire_Jdate = str(LANDIS_Jday)
 
-            yy_jjj = str(fire_yr) + fire_Jdate
+            yy_jjj = str(fire_modeling_yr) + fire_Jdate
             day_dt = dt.datetime.strptime(yy_jjj , '%y%j').date()  # strptime accepts str
             day_str = day_dt.strftime('%m/%d/%y')
             DATE = '"'+day_str+'"'  # to produce "string_dates" to write out to CSV
@@ -360,18 +360,22 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define fire date list
 
-    fire_days_list    = []
+    fire_days_list    = []  # list of fire days in LANDIS
 
-    missing_jdays_list = []
+    missing_jdays_list = []  # list of jdays that is not inside LANDIS and therefore LANDIS does not have fires for them
 
     for jday in jday_list_aug :
 
         if jday in LANDIS_jday_list:
-            #print('Jday = %s is in LANDIS data file!' %jday)
+
+            print('Jday = %s is in LANDIS data file!' %jday)
+
             fire_days_list.append(jday)
 
         else:
-            print('-> Jday (%s) has NO fire...' %jday)
+
+            print('-> LANDIS has NO fire for Jday (%s) !' %jday)
+
             missing_jdays_list.append(jday)
 
 
@@ -394,7 +398,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- preparing jday to dt --------------------------------------------
 
-            yy_jjj_str  = str(fire_yr) + str(missing_jday)
+            yy_jjj_str  = str(fire_modeling_yr) + str(missing_jday)
             day_dt      = dt.datetime.strptime(yy_jjj_str , '%y%j')  # strptime( str ) produces dt; need for filtering
             day_str     = day_dt.strftime('%m/%d/%y')               # change format of dt
             DATE_fake   = '"'+day_str+'"'                         # make this to produce "string_dates" to write out to CSV; need for CSV file

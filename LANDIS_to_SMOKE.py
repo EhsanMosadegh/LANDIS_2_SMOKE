@@ -364,13 +364,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     if fire_yr in leap_yr_list:
 
-        print('*** fire modeling year (%s) is leap year!' %fire_yr)
+        print('-> fire modeling year (%s) is leap year!' %fire_yr)
 
         jday_annual_list = range(1,367)
 
     else:
 
-        print('*** fire modeling year (%s) is Regular year!' %fire_yr)
+        print('-> fire modeling year (%s) is Regular year!' %fire_yr)
 
         jday_annual_list = range(1,366)
 
@@ -388,13 +388,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         if jday in LANDIS_jday_list:
 
-            print('*** Jday = %s is in LANDIS file, so it is a fire day!' %jday)
+            print('-> Jday = %s is in LANDIS file, so it is a fire day!' %jday)
 
             fire_days_list.append(jday)
 
         else:
 
-            print('*** LANDIS has NO fire for Jday (%s) !' %jday)
+            print('-> LANDIS has NO fire for Jday (%s) !' %jday)
 
             missing_jdays_list.append(jday)
 

@@ -41,7 +41,6 @@ write_output = 'no' #   (yes, no)                        |
 mode_ref_index = [      0       ,     1      ]  #         |
 mode_list      = ['SCC_devided' , 'SCC_total']  #         |
 mode      	     = mode_list[mode_index]          #         |
-jday_annual_list = range(213,244)                  #         |
 #+--------------------------------------------------------+
 #############################################################################
 

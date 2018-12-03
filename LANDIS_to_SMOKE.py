@@ -92,7 +92,7 @@ if (user_input == 'n' or user_input == 'N' or user_input == 'no'):
 
 elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('------------------------------')
-    print('-> *** start of program ***')
+    print('-> *** START OF PROGRAM ***')
 
     # --- read-in the input CSV file:
 
@@ -230,7 +230,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         if (LANDISrow/100)==int(LANDISrow/100):
 
-            print('-----------> row no.=%s from %s' %(LANDISrow,total_row_no))
+            print('-> row no.=%s from %s' %(LANDISrow,total_row_no))
 
         for pol in SCCmode_toPOL_mapper[mode][0]:  # pol = LANDIS col ; processes all elements inside POL_list_4SCC_devided 1-by-1; and calculates every row of PTDAY
             #print('-> row=%s' %LANDISrow)
@@ -297,7 +297,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             FIPS = region_code
             BEGHOUR = 0
             ENDHOUR = 23
-            FIRENAME = '"'+'USFS_FireScen_'+LANDIS_Scenario+'"'
+            FIRENAME = '"'+'USFS_FireScen_'+str(LANDIS_Scenario)+'"'
             NFDRSCODE = '"-9"'
             MATBURNED = 12
             HEATCONTENT = 8000
@@ -364,13 +364,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     if fire_yr in leap_yr_list:
 
-        print('-> fire modeling year (%s) is leap year!' %fire_yr)
+        print('*** fire modeling year (%s) is leap year!' %fire_yr)
 
         jday_annual_list = range(1,367)
 
     else:
 
-        print('-> fire modeling year (%s) is Regular year!' %fire_yr)
+        print('*** fire modeling year (%s) is Regular year!' %fire_yr)
 
         jday_annual_list = range(1,366)
 
@@ -388,20 +388,20 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         if jday in LANDIS_jday_list:
 
-            print('Jday = %s is in LANDIS data file!' %jday)
+            print('*** Jday = %s is in LANDIS file, so it is a fire day!' %jday)
 
             fire_days_list.append(jday)
 
         else:
 
-            print('-> LANDIS has NO fire for Jday (%s) !' %jday)
+            print('*** LANDIS has NO fire for Jday (%s) !' %jday)
 
             missing_jdays_list.append(jday)
 
 
     for missing_jday in missing_jdays_list :
 
-        print('-> making fake fire emissions for Jday %s...' %missing_jday)
+        print('-> making fake fire emissions for Jday (%s) ...' %missing_jday)
 
         for pol_fake in SCCmode_toPOL_mapper[mode][0]:
 
@@ -508,7 +508,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # write out output files
 #########################################################################################################
 
-    print('-> *** SUCCESSFULL finish ***')
+    print('-> *** SUCCESSFULL FINISH ***')
 
 else:
     print('-> user input is not correct!')

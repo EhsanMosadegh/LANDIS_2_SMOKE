@@ -32,7 +32,7 @@ fire_yr = 14  # year w/o century
 LANDIS_scenario_yr = 25                           #       |
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
 input_file = 'Year25latlon.csv'#                      |
-favorite_month = '08'#                                    |
+modeling_month = '08'#                                    |
 write_output = 'no' #   (yes, no)                        |
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
@@ -60,7 +60,7 @@ print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_yr)
 print('| LANDIS fire scenario year is = %s' %LANDIS_scenario_yr)
 print('| input file is     = %s         ' %input_file)
-print('| favorite month is = %s         ' %favorite_month)
+print('| modeling month is = %s         ' %modeling_month)
 print('| fire region is    = %s         ' %region_code)
 print('| write output?     = %s         ' %write_output)
 print('+----------------------------------------------------+')
@@ -329,9 +329,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- filter date-time col for favorable month
 
-    filter_Month = (df_master['DATE_date_time'] >= '2014-'+favorite_month+'-01') & (df_master['DATE_date_time'] <= '2014-'+favorite_month+'-30')
+    filter_Month = (df_master['DATE_date_time'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_date_time'] <= '2014-'+modeling_month+'-30')
     df_master_filtered_month = df_master[filter_Month].copy()
-    print('-> input-DF is filtered for month = %s' %favorite_month)
+    print('-> input-DF is filtered for month = %s' %modeling_month)
 
     # modify and filter master DF
 #########################################################################################################
@@ -413,7 +413,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # print number of fire days
     print('-----------------------------------------------------------------')
-    print('-> we have (%s) fire days in LANDIS file for month (%s)...' %( len(fire_days_list) , favorite_month ) )
+    print('-> we have (%s) fire days in LANDIS file for month (%s)...' %( len(fire_days_list) , modeling_month ) )
     print('-> Julian days with fire in LANDIS are:')
     for fireday in fire_days_list:
         print( '-> Jday (%s)' %fireday )
@@ -433,14 +433,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+favorite_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+favorite_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

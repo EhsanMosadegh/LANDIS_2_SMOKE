@@ -41,7 +41,7 @@ write_output = 'no' #   (yes, no)                        |
 mode_ref_index = [      0       ,     1      ]  #         |
 mode_list      = ['SCC_devided' , 'SCC_total']  #         |
 mode      	     = mode_list[mode_index]          #         |
-jday_list_aug = range(213,244)                  #         |
+jday_annual_list = range(213,244)                  #         |
 #+--------------------------------------------------------+
 #############################################################################
 
@@ -350,9 +350,24 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # --- looking for missing jdays
 
     df_master_filtered_month.LANDIS_jday = df_master_filtered_month.LANDIS_jday.astype(int)
+
     LANDIS_jday_col = df_master_filtered_month.LANDIS_jday
+
     LANDIS_jday_col.drop_duplicates( keep='first' , inplace=True)
+
     LANDIS_jday_list = LANDIS_jday_col.tolist()
+
+    # --- define julian day annual list
+
+    leap_yr_list = [2000,2004,2008,2012,2016,2020]
+
+    if fire_modeling_yr in leap_yr_list:
+
+        jday_annual_list = range(1,367)
+
+    else:
+
+        jday_annual_list = range(1,366)
 
     # --- define new col headers
 
@@ -364,7 +379,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     missing_jdays_list = []  # list of jdays that is not inside LANDIS and therefore LANDIS does not have fires for them
 
-    for jday in jday_list_aug :
+    for jday in jday_annual_list :
 
         if jday in LANDIS_jday_list:
 

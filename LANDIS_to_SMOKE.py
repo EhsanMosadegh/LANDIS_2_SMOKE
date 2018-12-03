@@ -358,13 +358,19 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define julian day annual list
 
-    leap_yr_list = [2000,2004,2008,2012,2016,2020]
+    leap_yr_list = ['2000','2004','2008','2012','2016','2020']
 
-    if fire_modeling_yr in leap_yr_list:
+    fire_yr = str(20)+str(fire_modeling_yr)
+
+    if fire_yr in leap_yr_list:
+
+        print('-> fire modeling year (%s) is leap year!' %fire_yr)
 
         jday_annual_list = range(1,367)
 
     else:
+
+        print('-> fire modeling year (%s) is Regular year!' %fire_yr)
 
         jday_annual_list = range(1,366)
 

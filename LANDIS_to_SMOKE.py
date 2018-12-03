@@ -29,9 +29,10 @@ emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL e
 pixel_area_in_Ha = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
 region_code = '"06017"'#                                  |
 fire_yr = 14  # year w/o century
-LANDIS_scenario_yr = 25                           #       |
+LANDIS_yr = 30
+LANDIS_Scenario = 1                           #       |
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
-input_file = 'Year25latlon.csv'#                      |
+input_file = 'Scenario1_year30latlon.csv'#                      |
 modeling_month = '08'#                                    |
 write_output = 'no' #   (yes, no)                        |
 #+--------------------------------------------------------+
@@ -58,7 +59,7 @@ print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit ,
 print('| run mode is       = %s         ' %mode)
 print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_yr)
-print('| LANDIS fire scenario year is = %s' %LANDIS_scenario_yr)
+print('| LANDIS fire scenario year is = %s' %LANDIS_yr)
 print('| input file is     = %s         ' %input_file)
 print('| modeling month is = %s         ' %modeling_month)
 print('| fire region is    = %s         ' %region_code)
@@ -106,7 +107,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     #threshold = 0.00001
     #filter_NoZero = (input_csv['Heat-25'] != 0) & (input_csv['NOx-Flaming'] != 0) & (input_csv['N2O-Flaming-25'] != 0)
-    filter_NoZero = ( input_csv['Day-of-Fire-%s' %LANDIS_scenario_yr] != 0 )
+    filter_NoZero = ( input_csv['Day-of-Fire-%s' %LANDIS_yr] != 0 )
     print('-> Julian days with index=0 are cleaned out!')
 
     # --- filter the inputDF and copy the chunck to a new DF
@@ -123,6 +124,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # define POL list based on available variables/columns in LANDIS output + S or F labels:
 
     POL_list_4SCC_devided = ['CO_S','CO_F','CO2_S','CO2_F','CH4_S','CH4_F','SO2_S','SO2_F','NH3_S','NH3_F','NMOC_S','NMOC_F','NOx_S','NOx_F','PM10_S','PM10_S','PM2.5_S','PM2.5_F','heat_flux','acres_burned']
+
     POL_list_4SCC_total = ['CO_tot','CO2_tot','CH4_tot','SO2_tot','NH3_tot','NMOC_tot','NOx_tot','PM10_tot','PM2.5_tot','heat_flux','acres_burned']
 
     # header of dictionary: keys= what I define in POL_list_4SCC_devided and as a key; pollutant label based on NEI PTDAY labeling format in DATA column; corresponding value from LANDIS CSV file; SCC=S or F!
@@ -179,16 +181,16 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- for NEI 2011 - total SCC mode
     POL_dict_4SCC_total = {
-            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],    '2810001000'],
-            'CO2_tot':      ['CO2',     input_csv_filter_NoZero['CO2-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]       +   input_csv_filter_NoZero['CO2-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],   '2810001000'],
-            'CH4_tot':      ['CH4',     input_csv_filter_NoZero['CH4-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]       +   input_csv_filter_NoZero['CH4-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],   '2810001000'],
-            'SO2_tot':      ['SO2',     input_csv_filter_NoZero['SO2-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]       +   input_csv_filter_NoZero['SO2-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],   '2810001000'],
-            'NH3_tot':      ['NH3',     input_csv_filter_NoZero['NH3-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]       +   input_csv_filter_NoZero['NH3-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],   '2810001000'],
-            'NMOC_tot':     ['VOC',     input_csv_filter_NoZero['NMOC-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]      +   input_csv_filter_NoZero['NMOC-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],  '2810001000'],
-            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOx-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]        +   input_csv_filter_NoZero['NOx-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],   '2810001000'],
-            'PM10_tot':     ['PM10',    input_csv_filter_NoZero['PM10-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]      +   input_csv_filter_NoZero['PM10-Flaming-%s'%LANDIS_scenario_yr][LANDISrow],  '2810001000'],
-            'PM2.5_tot':    ['PM2_5',   input_csv_filter_NoZero['PM2.5-Smoldering-%s'%LANDIS_scenario_yr][LANDISrow]     +   input_csv_filter_NoZero['PM2.5-Flaming-%s'%LANDIS_scenario_yr][LANDISrow], '2810001000'],
-            'heat_flux':    ['HFLUX',   input_csv_filter_NoZero['Heat-%s'%LANDIS_scenario_yr][LANDISrow],                                                                                               '2810001000'],
+            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s'%LANDIS_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s'%LANDIS_yr][LANDISrow],    '2810001000'],
+            'CO2_tot':      ['CO2',     input_csv_filter_NoZero['CO2-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CO2-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
+            'CH4_tot':      ['CH4',     input_csv_filter_NoZero['CH4-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CH4-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
+            'SO2_tot':      ['SO2',     input_csv_filter_NoZero['SO2-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['SO2-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
+            'NH3_tot':      ['NH3',     input_csv_filter_NoZero['NH3-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NH3-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
+            'NMOC_tot':     ['VOC',     input_csv_filter_NoZero['NMOC-Smoldering-%s'%LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['NMOC-Flaming-%s'%LANDIS_yr][LANDISrow],  '2810001000'],
+            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOx-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NOx-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
+            'PM10_tot':     ['PM10',    input_csv_filter_NoZero['PM10-Smoldering-%s'%LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['PM10-Flaming-%s'%LANDIS_yr][LANDISrow],  '2810001000'],
+            'PM2.5_tot':    ['PM2_5',   input_csv_filter_NoZero['PM2.5-Smoldering-%s'%LANDIS_yr][LANDISrow]     +   input_csv_filter_NoZero['PM2.5-Flaming-%s'%LANDIS_yr][LANDISrow], '2810001000'],
+            'heat_flux':    ['HFLUX',   input_csv_filter_NoZero['Heat-%s'%LANDIS_yr][LANDISrow],                                                                                               '2810001000'],
             'acres_burned': ['ACRESBURNED',pixel_area_in_Ha,                                                                                                                                            '2810001000'],
             }
 
@@ -204,12 +206,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     df_master = pd.DataFrame( columns = master_header_list )
 
     total_row_no = input_csv_filter_NoZero.shape[0]
+
     print('-> start calculating LANDIS conversion for %s rows (fires) ...' %total_row_no)
 
     # loop for each day and for each element inside POL_list_4SCC_devided:
     # maps mode to a list and we have to select the index
     SCCmode_toPOL_mapper = {
             'SCC_total'   : [POL_list_4SCC_total   , POL_dict_4SCC_total] }#,
+
 #            'SCC_devided' : [POL_list_4SCC_devided , POL_dict_4SCC_devided] ,
 #                    }
 
@@ -218,12 +222,15 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 #    print('-> POL dictionary is = %s' %SCCmode_toPOL_mapper[mode][1])
 
     print('-> LANDIS columns/variables that we use in this run are...')
+
     for pol in SCCmode_toPOL_mapper[mode][0]:
+
         print('-> LANDIS col = %s ' %SCCmode_toPOL_mapper[mode][1][pol][0])
 
     for LANDISrow in range(total_row_no):  #
 
         if (LANDISrow/100)==int(LANDISrow/100):
+
             print('-----------> row no.=%s from %s' %(LANDISrow,total_row_no))
 
         for pol in SCCmode_toPOL_mapper[mode][0]:  # pol = LANDIS col ; processes all elements inside POL_list_4SCC_devided 1-by-1; and calculates every row of PTDAY
@@ -255,7 +262,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- modify dates from julian to calendar dates ------------------------------------------------
 
-            LANDIS_Jday = input_csv_filter_NoZero['Day-of-Fire-%s'%LANDIS_scenario_yr][LANDISrow]
+            LANDIS_Jday = input_csv_filter_NoZero['Day-of-Fire-%s'%LANDIS_yr][LANDISrow]
 
             if LANDIS_Jday == 0:
 
@@ -291,7 +298,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             FIPS = region_code
             BEGHOUR = 0
             ENDHOUR = 23
-            FIRENAME = '"USFS_wildfire_test"'
+            FIRENAME = '"'+'USFS_FireScen_'+LANDIS_Scenario+'"'
             NFDRSCODE = '"-9"'
             MATBURNED = 12
             HEATCONTENT = 8000
@@ -354,6 +361,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # --- define fire date list
 
     fire_days_list    = []
+
     missing_jdays_list = []
 
     for jday in jday_list_aug :
@@ -433,14 +441,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_scenario_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_month_'+modeling_month+'_mode_'+mode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

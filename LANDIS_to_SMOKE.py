@@ -6,6 +6,7 @@
 #
 # NOTES:
 #	- each unique fire is defined by = region + fireID
+#
 # NEED TODO:
 #	- add header row
 #	- add spinup day from previous month to both PTDAY and PTINV
@@ -355,15 +356,15 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     fire_days_list    = []
     missing_jdays_list = []
 
-    for month_jday in jday_list_aug :
+    for jday in jday_list_aug :
 
-        if month_jday in LANDIS_jday_list:
-            #print('Jday = %s is in LANDIS data file!' %month_jday)
-            fire_days_list.append(month_jday)
+        if jday in LANDIS_jday_list:
+            #print('Jday = %s is in LANDIS data file!' %jday)
+            fire_days_list.append(jday)
 
         else:
-            print('-> Jday (%s) has NO fire...' %month_jday)
-            missing_jdays_list.append(month_jday)
+            print('-> Jday (%s) has NO fire...' %jday)
+            missing_jdays_list.append(jday)
 
 
     for missing_jday in missing_jdays_list :

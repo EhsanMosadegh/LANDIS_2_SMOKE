@@ -23,7 +23,7 @@ import datetime as dt
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
 run_mode_index = 1
-mode_index  = 1    #
+SCCmode_index  = 1    #
 POL_input_emis_unit = 'megagrams'
 POL_output_emis_unit = 'tons'
 emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?  |
@@ -40,8 +40,8 @@ write_output = 'no' #   (yes, no)                        |
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
 mode_ref_index = [      0       ,     1      ]  #         |
-mode_list      = ['SCC_devided' , 'SCC_total']  #         |
-mode      	     = mode_list[mode_index]          #
+SCCmode_list      = ['SCC_devided' , 'SCC_total']  #         |
+SCCmode      	     = SCCmode_list[SCCmode_index]          #
 
 run_mode_ref_index       = [      0     ,       1     ]
 run_mode_list            = ['month_mode','annual_mode']
@@ -56,11 +56,12 @@ run_mode          = run_mode_list[run_mode_index]
 print('+----------------------------------------------------+')
 print('-> run time settings are ...')
 print('+----------------------------------------------------+')
-#print('| mode index is     = %s         ' %mode_index)
+#print('| SCCmode index is     = %s         ' %mode_index)
 print('| input emission unit is = %s' %POL_input_emis_unit )
 print('| output emission unit is = %s' %POL_output_emis_unit )
 print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit , POL_output_emis_unit , emis_conv_factr_2tone ))
-print('| run mode is       = %s         ' %mode)
+print('| SCCmode is        = %s         ' %SCCmode)
+print('| run mode is       = %s         ' %run_mode)
 print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_modeling_yr)
 print('| LANDIS fire scenario year is = %s' %LANDIS_yr)
@@ -217,7 +218,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('-> start calculating LANDIS conversion for %s rows (fires) ...' %total_row_no)
 
     # loop for each day and for each element inside POL_list_4SCC_devided:
-    # maps mode to a list and we have to select the index
+    # maps SCCmode to a list and we have to select the index
     SCCmode_toPOL_mapper = {
 
             'SCC_total'   : [POL_list_4SCC_total   , POL_dict_4SCC_total] }#,
@@ -231,9 +232,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     print('-> LANDIS columns/variables that we use in this run are...')
 
-    for pol in SCCmode_toPOL_mapper[mode][0]:
+    for pol in SCCmode_toPOL_mapper[SCCmode][0]:
 
-        print('-> LANDIS col = %s ' %SCCmode_toPOL_mapper[mode][1][pol][0])
+        print('-> LANDIS col = %s ' %SCCmode_toPOL_mapper[SCCmode][1][pol][0])
 
     for LANDISrow in range(total_row_no):  # for each LANDIS row (== one fire) after filtering zeros
 
@@ -241,17 +242,17 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             print('-> row no.=%s from %s' %(LANDISrow,total_row_no))
 
-        for pol in SCCmode_toPOL_mapper[mode][0]:  # pol = LANDIS col ; processes all elements inside POL_list_4SCC_devided 1-by-1; and calculates every row of PTDAY
+        for pol in SCCmode_toPOL_mapper[SCCmode][0]:  # pol = LANDIS col ; processes all elements inside POL_list_4SCC_devided 1-by-1; and calculates every row of PTDAY
             #print('-> row=%s' %LANDISrow)
             #print('-> POL is = %s' %pol)
 
             # --- modify data and datavalue fields -----------------------------
 
-            DATA = '"'+str(SCCmode_toPOL_mapper[mode][1][pol][0])+'"'  # maps POL key to POL name ; extracts the name of pollutant
+            DATA = '"'+str(SCCmode_toPOL_mapper[SCCmode][1][pol][0])+'"'  # maps POL key to POL name ; extracts the name of pollutant
             #print('-> DATA is = %s' %DATA)
-            DATAVALUE = SCCmode_toPOL_mapper[mode][1][pol][1]  # extracts the value of pollutant
+            DATAVALUE = SCCmode_toPOL_mapper[SCCmode][1][pol][1]  # extracts the value of pollutant
 
-            SCC = '"'+SCCmode_toPOL_mapper[mode][1][pol][2]+'"'   # extracts SCC
+            SCC = '"'+SCCmode_toPOL_mapper[SCCmode][1][pol][2]+'"'   # extracts SCC
             #print('-> SCC is = %s' %SCC)
 
             # --- change units ----------------------------------------------
@@ -451,7 +452,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         print('-> making fake fire emissions for Jday (%s) ...' %missing_jday)
 
-        for pol_fake in SCCmode_toPOL_mapper[mode][0]:
+        for pol_fake in SCCmode_toPOL_mapper[SCCmode][0]:
 
             #print('-> doing for fake day = %s and POL = %s' %(missing_jday,pol_fake))
 
@@ -461,8 +462,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             FIREID_fake = '"'+'FID_fake_'+str(missing_jday)+'"'
 #            LOCID_fake  = '"'+'PID_fake_'+str(missing_jday)+'"'
             LOCID_fake  = '"-9"'
-            SCC_fake    = '"'+SCCmode_toPOL_mapper[mode][1][pol_fake][2]+'"'
-            DATA_fake   = '"'+str(SCCmode_toPOL_mapper[mode][1] [pol_fake] [0])+'"'
+            SCC_fake    = '"'+SCCmode_toPOL_mapper[SCCmode][1][pol_fake][2]+'"'
+            DATA_fake   = '"'+str(SCCmode_toPOL_mapper[SCCmode][1] [pol_fake] [0])+'"'
 
             # --- preparing jday to dt --------------------------------------------
 

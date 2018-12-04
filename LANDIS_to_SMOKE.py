@@ -393,9 +393,17 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     LANDIS_jday_col.drop_duplicates( keep='first' , inplace=True)
 
-    LANDIS_jday_list = LANDIS_jday_col.tolist()
+    # --- define jday_list based on run-mode
 
-    # --- define julian day annual list
+    if run_mode == 'annual_mode' :
+
+        LANDIS_annual_jday_list = LANDIS_jday_col.tolist()
+
+    else:
+
+        LANDIS_monthly_jday_list = LANDIS_jday_col.tolist()
+
+    # --- define julian day annual list for annual mode
 
     leap_yr_list = ['2000','2004','2008','2012','2016','2020']
 
@@ -419,13 +427,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define fire date list
 
-    fire_days_list    = []  # list of fire days in LANDIS
+    fire_days_list    =  []  # list of fire days in LANDIS
 
     missing_jdays_list = []  # list of jdays that is not inside LANDIS and therefore LANDIS does not have fires for them
 
     for jday in jday_annual_list :
 
-        if jday in LANDIS_jday_list:
+        if jday in LANDIS_jday_list :
 
             print('-> Jday = %s is in LANDIS file, so it is a fire day!' %jday)
 

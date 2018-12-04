@@ -6,10 +6,12 @@
 #
 # NOTES:
 #	- each unique fire is defined by = region + fireID
+# - script does not work for single month; only works for a full year
 #
 # NEED TODO:
-#	- add header row
-#	- add spinup day from previous month to both PTDAY and PTINV
+#	 - add header row
+#	 - add spinup day from previous month to both PTDAY and PTINV
+# - loop through 12 months for a full year
 #
 ############################################################################
 
@@ -22,30 +24,30 @@ import datetime as dt
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
-run_mode_index = 1
-SCCmode_index  = 1    #
-POL_input_emis_unit = 'megagrams'
-POL_output_emis_unit = 'tons'
-emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?  |
+run_mode_index = 1                                       #|
+SCCmode_index  = 1                                       #|
+                                                         #|
+modeling_month = '08'                                    #|
+POL_input_emis_unit = 'megagrams'                        #|
+POL_output_emis_unit = 'tons'                            #|
+emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
 pixel_area_in_Ha = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-region_code = '"06017"'#                                  |
-fire_modeling_yr = 14  # year w/o century
-LANDIS_yr = 30
-LANDIS_Scenario = 1                           #       |
-Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre  |
-input_file = 'Scenario1_year30latlon.csv'#                      |
-modeling_month = '08'#                                    |
-write_output = 'no' #   (yes, no)                        |
+region_code = '"06017"'                                  #|
+fire_modeling_yr = 16  # year w/o century                #|
+LANDIS_yr = 30                                           #|
+LANDIS_Scenario = 1                                      #|
+Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
+input_file = 'Scenario1_year30latlon.csv'                #|
+write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
-mode_ref_index = [      0       ,     1      ]  #         |
-SCCmode_list      = ['SCC_devided' , 'SCC_total']  #         |
-SCCmode      	     = SCCmode_list[SCCmode_index]          #
-
-run_mode_ref_index       = [      0     ,       1     ]
-run_mode_list            = ['month_mode','annual_mode']
-run_mode          = run_mode_list[run_mode_index]
+mode_ref_index = [      0       ,     1      ]  #        #|
+SCCmode_list      = ['SCC_devided' , 'SCC_total']  #     #|
+SCCmode      	     = SCCmode_list[SCCmode_index]         #|
+run_mode_ref_index       = [      0     ,       1     ]  #|
+run_mode_list            = ['month_mode','annual_mode']  #|
+run_mode          = run_mode_list[run_mode_index]        #|
 #+--------------------------------------------------------+
 #############################################################################
 
@@ -57,18 +59,18 @@ print('+----------------------------------------------------+')
 print('-> run time settings are ...')
 print('+----------------------------------------------------+')
 #print('| SCCmode index is     = %s         ' %mode_index)
-print('| input emission unit is = %s' %POL_input_emis_unit )
+print('| run-mode is             = %s         ' %run_mode)
+print('| SCCmode is              = %s         ' %SCCmode)
+#print('| modeling month is = %s, but might not be used!         ' %modeling_month)
+print('| input emission unit is  = %s' %POL_input_emis_unit )
 print('| output emission unit is = %s' %POL_output_emis_unit )
-print('| emission convertor factor ( %s to %s ) is = %s' %(POL_input_emis_unit , POL_output_emis_unit , emis_conv_factr_2tone ))
-print('| SCCmode is        = %s         ' %SCCmode)
-print('| run mode is       = %s         ' %run_mode)
-print('| size of pixel is  = %s hactares (100m * 100m)' %pixel_area_in_Ha)
+print('| emis. convert factor is = %s ( %s to %s )' % ( emis_conv_factr_2tone , POL_input_emis_unit , POL_output_emis_unit ))
+print('| size of pixel is        = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_modeling_yr)
-print('| LANDIS fire scenario year is = %s' %LANDIS_yr)
-print('| input file is     = %s         ' %input_file)
-print('| modeling month is = %s         ' %modeling_month)
-print('| fire region is    = %s         ' %region_code)
-print('| write output?     = %s         ' %write_output)
+print('| LANDIS scenario year is = %s' %LANDIS_yr)
+print('| input file is           = %s         ' %input_file)
+print('| fire region is          = %s         ' %region_code)
+print('| write output?           = %s         ' %write_output)
 print('+----------------------------------------------------+')
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
@@ -240,7 +242,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         if (LANDISrow/100)==int(LANDISrow/100):
 
-            print('-> row no.=%s from %s' %(LANDISrow,total_row_no))
+            print('-> row no = %s from %s' %(LANDISrow,total_row_no))
 
         for pol in SCCmode_toPOL_mapper[SCCmode][0]:  # pol = LANDIS col ; processes all elements inside POL_list_4SCC_devided 1-by-1; and calculates every row of PTDAY
             #print('-> row=%s' %LANDISrow)
@@ -474,7 +476,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- other fixed fields ----------------------------------------------
 
-            DATAVALUE_fake  = '1'
+            DATAVALUE_fake  = '0.0000000001'
 
             BEGHOUR_fake    = 0
             ENDHOUR_fake    = 23
@@ -494,7 +496,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # print number of fire days
     print('-----------------------------------------------------------------')
-    print('-> we have (%s) fire days in LANDIS file for month (%s)...' %( len(fire_days_list) , modeling_month ) )
+    print('-> we have (%s) fire days in LANDIS file for modeling year (%s)...' %( len(fire_days_list) , fire_yr ) )
     print('-> Julian days with fire in LANDIS are:')
     for fireday in fire_days_list:
         print( '-> Jday (%s)' %fireday )
@@ -502,7 +504,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- sort month DF by date-time (DATE) column for favorable month for writing out to csv as object
     print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
-    print('-> NOTE: fake lat= %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
+    print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
     print('-> in-place sorting based on date-time...')
     df_master_updated.sort_values('DATE_2datetime' , inplace=True)  # sorts the whole DF based on a col and inplace
 
@@ -514,14 +516,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+mode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+mode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

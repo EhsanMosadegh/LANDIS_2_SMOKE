@@ -437,6 +437,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             missing_jdays_list.append(jday)
 
+    # --- making fake fire emissions for missing days
 
     for missing_jday in missing_jdays_list :
 

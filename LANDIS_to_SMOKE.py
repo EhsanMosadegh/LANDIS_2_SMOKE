@@ -22,6 +22,7 @@ import datetime as dt
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
+run_mode_index = 1
 mode_index  = 1    #
 POL_input_emis_unit = 'megagrams'
 POL_output_emis_unit = 'tons'
@@ -40,7 +41,11 @@ write_output = 'no' #   (yes, no)                        |
 #+--------------------------------------------------------+
 mode_ref_index = [      0       ,     1      ]  #         |
 mode_list      = ['SCC_devided' , 'SCC_total']  #         |
-mode      	     = mode_list[mode_index]          #         |
+mode      	     = mode_list[mode_index]          #
+
+run_mode_ref_index       = [      0     ,       1     ]
+run_mode_list            = ['month_mode','annual_mode']
+run_mode          = run_mode_list[run_mode_index]
 #+--------------------------------------------------------+
 #############################################################################
 
@@ -348,13 +353,30 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     print('-> a new col = "DATE_2datetime" added to the end of df_master; to help filter date-time DATA for a month!')
 
+    # --- define month_mode or annual_mode and produce df_master_updated
+
+    if run_mode == 'month_mode' :
+
+        print('-> month-mode is selected, so filter is set for your favorable month!')
+
     # --- filter date-time col for favorable month
 
-    filter_Month = (df_master['DATE_2datetime'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_2datetime'] <= '2014-'+modeling_month+'-30')
+        filter_Month = (df_master['DATE_2datetime'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_2datetime'] <= '2014-'+modeling_month+'-30')
 
-    df_master_filtered_month = df_master[filter_Month].copy()
+        df_master_updated = df_master[filter_Month].copy()
 
-    print('-> input-DF is filtered for month = %s' %modeling_month)
+        print('-> input-DF is filtered for month = %s' %modeling_month)
+
+    elif run_mode == 'annual_mode' :
+
+        print('-> annual-mode is selected, so PTINV and PTDAY will be prepared for a full year!')
+
+        df_master_updated = df_master.copy()
+
+    else:
+
+        print('-> RUN MODE is not set!')
+
 
     # modify and filter master DF
 #########################################################################################################
@@ -365,9 +387,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- looking for missing jdays
 
-    df_master_filtered_month.LANDIS_jday = df_master_filtered_month.LANDIS_jday.astype(int)
+    df_master_updated.LANDIS_jday = df_master_updated.LANDIS_jday.astype(int)
 
-    LANDIS_jday_col = df_master_filtered_month.LANDIS_jday
+    LANDIS_jday_col = df_master_updated.LANDIS_jday
 
     LANDIS_jday_col.drop_duplicates( keep='first' , inplace=True)
 
@@ -457,8 +479,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             fake_row = [[FIPS_fake,FIREID_fake,LOCID_fake,SCC_fake,DATA_fake,DATE_fake,DATAVALUE_fake,BEGHOUR_fake,ENDHOUR_fake,LAT_fake,LON_fake,FIRENAME_fake,NFDRSCODE_fake,MATBURNED_fake,HEATCONTENT_fake,day_str,missing_jday,day_dt]] # first make a new row; NOTE: define a row of list with [[x,y]]
             fake_row_df = pd.DataFrame( fake_row , columns = master_header_list_updated )  # define a DF from a list with columns.
-            fake_frames_list = [ df_master_filtered_month , fake_row_df ]
-            df_master_filtered_month = pd.concat( fake_frames_list , axis=0 )  # then concat(both DFs together along x-axis=0)
+            fake_frames_list = [ df_master_updated , fake_row_df ]
+            df_master_updated = pd.concat( fake_frames_list , axis=0 )  # then concat(both DFs together along x-axis=0)
 
     # print number of fire days
     print('-----------------------------------------------------------------')
@@ -472,7 +494,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat= %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
     print('-> in-place sorting based on date-time...')
-    df_master_filtered_month.sort_values('DATE_2datetime' , inplace=True)  # sorts the whole DF based on a col and inplace
+    df_master_updated.sort_values('DATE_2datetime' , inplace=True)  # sorts the whole DF based on a col and inplace
 
     # dealing with missing dates and fake data
 #########################################################################################################
@@ -494,7 +516,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 
     # --- copy a subset=PTINV from df_master
-    ptinv_df = df_master_filtered_month[ ptinv_header_list ].copy()
+    ptinv_df = df_master_updated[ ptinv_header_list ].copy()
 
     # --- remove duplicates in FIREID col
     ptinv_df.drop_duplicates( ['FIREID'] , keep = 'first' , inplace = True )
@@ -510,7 +532,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     if write_output == 'yes':
 
-        df_master_filtered_month.to_csv( ptday_output_file_FullPath , columns = ptday_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
+        df_master_updated.to_csv( ptday_output_file_FullPath , columns = ptday_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
 
         print( '-> output file is written as: %s' %ptday_output_file_name )
 

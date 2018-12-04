@@ -1,4 +1,4 @@
-
+#! /usr/bin/env python
 ############################################################################
 # usage: Convert LANDIS-II model output to SMOKE input.
 # date: Sep 20, 2018
@@ -44,7 +44,8 @@ write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 mode_ref_index = [      0       ,     1      ]  #        #|
 SCCmode_list      = ['SCC_devided' , 'SCC_total']  #     #|
-SCCmode      	     = SCCmode_list[SCCmode_index]         #|
+SCCmode      	     = SCCmode_list[SCCmode_index]          #|
+                                                         #|
 run_mode_ref_index       = [      0     ,       1     ]  #|
 run_mode_list            = ['month_mode','annual_mode']  #|
 run_mode          = run_mode_list[run_mode_index]        #|
@@ -505,7 +506,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # --- sort month DF by date-time (DATE) column for favorable month for writing out to csv as object
     print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
-    print('-> in-place sorting based on date-time...')
+
+    print('-> output master DF will be sorted in-place based on date-time column ...')
+
     df_master_updated.sort_values('DATE_2datetime' , inplace=True)  # sorts the whole DF based on a col and inplace
 
     # dealing with missing dates and fake data

@@ -107,12 +107,15 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     #threshold = 0.00001
     #filter_NoZero = (input_csv['Heat-25'] != 0) & (input_csv['NOx-Flaming'] != 0) & (input_csv['N2O-Flaming-25'] != 0)
     filter_NoZero = ( input_csv['Day-of-Fire-%s' %LANDIS_yr] != 0 )
+
     print('-> Julian days with index=0 are cleaned out!')
 
     # --- filter the inputDF and copy the chunck to a new DF
 
     input_csv_filter_NoZero = input_csv[filter_NoZero].copy()
+
     input_csv_filter_NoZero = input_csv_filter_NoZero.reset_index()  # reset is one-time operation; we should update master DF again!
+
     print('-> non-zero rows were filtered!')
 
 # set pathes, directory names, read-in data
@@ -120,7 +123,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
 
 #########################################################################################################
-    # define POL list based on available variables/columns in LANDIS output + S or F labels:
+    # define POL list based on available variables/columns in LANDIS output + S or F labels
 
     POL_list_4SCC_devided = ['CO_S','CO_F','CO2_S','CO2_F','CH4_S','CH4_F','SO2_S','SO2_F','NH3_S','NH3_F','NMOC_S','NMOC_F','NOx_S','NOx_F','PM10_S','PM10_S','PM2.5_S','PM2.5_F','heat_flux','acres_burned']
 
@@ -193,12 +196,12 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             'acres_burned': ['ACRESBURNED',pixel_area_in_Ha,                                                                                                                                            '2810001000'],
             }
 
-    # define POL list based on available variables in LANDIS output + S or F labels:
+    # define POL list based on available variables in LANDIS output + S or F labels
 #########################################################################################################
 
 
 #########################################################################################################
-    # define master DF line-by-line with all columns:
+    # define master DF line-by-line with all LANDIS columns
 
     master_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR','LAT','LON','FIRENAME','NFDRSCODE','MATBURNED','HEATCONTENT','DATE_obj','LANDIS_jday'] # DF will be organized bbased on this order!
 
@@ -211,6 +214,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # loop for each day and for each element inside POL_list_4SCC_devided:
     # maps mode to a list and we have to select the index
     SCCmode_toPOL_mapper = {
+
             'SCC_total'   : [POL_list_4SCC_total   , POL_dict_4SCC_total] }#,
 
 #            'SCC_devided' : [POL_list_4SCC_devided , POL_dict_4SCC_devided] ,
@@ -226,7 +230,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         print('-> LANDIS col = %s ' %SCCmode_toPOL_mapper[mode][1][pol][0])
 
-    for LANDISrow in range(total_row_no):  #
+    for LANDISrow in range(total_row_no):  # for each LANDIS row (== one fire) after filtering zeros
 
         if (LANDISrow/100)==int(LANDISrow/100):
 
@@ -236,11 +240,12 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             #print('-> row=%s' %LANDISrow)
             #print('-> POL is = %s' %pol)
 
-            # --- modify data and datavlues files -----------------------------
+            # --- modify data and datavalue fields -----------------------------
 
             DATA = '"'+str(SCCmode_toPOL_mapper[mode][1][pol][0])+'"'  # maps POL key to POL name ; extracts the name of pollutant
             #print('-> DATA is = %s' %DATA)
             DATAVALUE = SCCmode_toPOL_mapper[mode][1][pol][1]  # extracts the value of pollutant
+
             SCC = '"'+SCCmode_toPOL_mapper[mode][1][pol][2]+'"'   # extracts SCC
             #print('-> SCC is = %s' %SCC)
 
@@ -253,10 +258,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             elif DATA == '"HFLUX"':
 
                 KW_per_day_pixel = DATAVALUE*pixel_area_in_Ha*10000  # change from KW/m2 to KW/pixel; both per day!
+
                 BTU_per_day_pixel = KW_per_day_pixel*3412.14  # change from KW/pixel to BTU/pixel; both per day!
+
                 DATAVALUE = BTU_per_day_pixel
 
             else:
+
                 DATAVALUE = DATAVALUE * emis_conv_factr_2tone  # to change POL units from kg/ha to tons/day
 
             # --- modify dates from julian to calendar dates ------------------------------------------------
@@ -305,23 +313,29 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             # --- joining section ----------------------------------------------
 
             new_row = [[FIPS,FIREID,LOCID,SCC,DATA,DATE,DATAVALUE,BEGHOUR,ENDHOUR,LAT,LON,FIRENAME,NFDRSCODE,MATBURNED,HEATCONTENT,DATE_obj,LANDIS_Jday]] # first make a new row; NOTE: define a row of list with [[x,y]]
-            new_df_line = pd.DataFrame( new_row , columns = master_header_list )  # define a DF from a list with columns.
-            real_frames_list = [df_master , new_df_line]
-            df_master = pd.concat(real_frames_list , axis=0)  # then concat(both DFs together along x-axis=0= vertical ???)
 
-    # define master DF line-by-line with all columns:
+            new_df_line = pd.DataFrame( new_row , columns = master_header_list )  # define a DF from a list with columns
+
+            frames_list = [df_master , new_df_line]
+
+            df_master = pd.concat(frames_list , axis=0)  # then concat(both DFs together along x-axis=0= vertical ???)
+
+    # define master DF line-by-line with all LANDIS columns
 #########################################################################################################
 
 
 #########################################################################################################
     # modify and filter master DF
+
     print('-> NOTE: pollutant (DATAVALUE) units converted from POL_input_emis_unit --> POL_output_emis_unit')
     print('-> NOTE: pointID column from LANDIS is selected as FIREID for SMOKE!')
 
     # --- change dtype of BEGHOUR and ENDHOUR columns inside master DF from float->int
 
     df_master.BEGHOUR = df_master.BEGHOUR.astype(int)
+
     df_master.ENDHOUR = df_master.ENDHOUR.astype(int)
+
     df_master.MATBURNED = df_master.MATBURNED.astype(int)
 
     #list_of_cols = ['BEGHOUR','ENDHOUR']
@@ -331,12 +345,15 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # --- change DATE_obj col to new date-time col to filter later
 
     df_master['DATE_date_time'] = pd.to_datetime(df_master['DATE_obj'])# , format= '%m%d%y')
+
     print('-> a new col = "DATE_date_time" added to the end of df_master; to filter date-time DATA for a month!')
 
     # --- filter date-time col for favorable month
 
     filter_Month = (df_master['DATE_date_time'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_date_time'] <= '2014-'+modeling_month+'-30')
+
     df_master_filtered_month = df_master[filter_Month].copy()
+
     print('-> input-DF is filtered for month = %s' %modeling_month)
 
     # modify and filter master DF

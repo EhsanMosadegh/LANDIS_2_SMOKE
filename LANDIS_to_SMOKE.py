@@ -516,14 +516,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_FireScen_'+str(LANDIS_yr)+'_withfakevalue.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_firescenario_'+str(LANDIS_yr)+'_fakevalue_'+DATAVALUE_fake+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_FireScen_'+str(LANDIS_yr)+'_withfakevalue.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

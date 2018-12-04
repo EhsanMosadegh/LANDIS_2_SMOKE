@@ -316,9 +316,9 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             new_df_line = pd.DataFrame( new_row , columns = master_header_list )  # define a DF from a list with columns
 
-            frames_list = [df_master , new_df_line]
+            frames_list = [df_master , new_df_line]     # add a new line to df_master
 
-            df_master = pd.concat(frames_list , axis=0)  # then concat(both DFs together along x-axis=0= vertical ???)
+            df_master = pd.concat(frames_list , axis=0)  # then concat (both DFs together along x-axis=0= vertical ???)
 
     # define master DF line-by-line with all LANDIS columns
 #########################################################################################################
@@ -344,13 +344,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- change DATE_obj col to new date-time col to filter later
 
-    df_master['DATE_date_time'] = pd.to_datetime(df_master['DATE_obj'])# , format= '%m%d%y')
+    df_master['DATE_2datetime'] = pd.to_datetime(df_master['DATE_obj'])# , format= '%m%d%y')
 
-    print('-> a new col = "DATE_date_time" added to the end of df_master; to filter date-time DATA for a month!')
+    print('-> a new col = "DATE_2datetime" added to the end of df_master; to help filter date-time DATA for a month!')
 
     # --- filter date-time col for favorable month
 
-    filter_Month = (df_master['DATE_date_time'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_date_time'] <= '2014-'+modeling_month+'-30')
+    filter_Month = (df_master['DATE_2datetime'] >= '2014-'+modeling_month+'-01') & (df_master['DATE_2datetime'] <= '2014-'+modeling_month+'-30')
 
     df_master_filtered_month = df_master[filter_Month].copy()
 
@@ -393,7 +393,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define new col headers
 
-    master_header_list_updated = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR','LAT','LON','FIRENAME','NFDRSCODE','MATBURNED','HEATCONTENT','DATE_obj','LANDIS_jday','DATE_date_time'] # DF will be organized bbased on this order!
+    master_header_list_updated = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR','LAT','LON','FIRENAME','NFDRSCODE','MATBURNED','HEATCONTENT','DATE_obj','LANDIS_jday','DATE_2datetime'] # DF will be organized bbased on this order!
 
     # --- define fire date list
 
@@ -472,7 +472,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat= %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
     print('-> in-place sorting based on date-time...')
-    df_master_filtered_month.sort_values('DATE_date_time' , inplace=True)  # sorts the whole DF based on a col and inplace
+    df_master_filtered_month.sort_values('DATE_2datetime' , inplace=True)  # sorts the whole DF based on a col and inplace
 
     # dealing with missing dates and fake data
 #########################################################################################################

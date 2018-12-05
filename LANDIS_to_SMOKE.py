@@ -306,8 +306,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- set lat/lon ----------------------
 
-            LAT = input_csv_filter_NoZero['Long'][LANDISrow]  # the file I used had Lat in Long place
-            LON = input_csv_filter_NoZero['Lat'][LANDISrow]   # so I used them in place of each other
+            LAT = input_csv_filter_NoZero['Lat'][LANDISrow]  
+            LON = input_csv_filter_NoZero['Long'][LANDISrow]  
 
             # --- fixed parameters ---------------------------------------------
 

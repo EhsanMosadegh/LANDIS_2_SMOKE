@@ -36,9 +36,10 @@ pixel_area_in_Ha = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size 
 region_code = '"06017"'                                  #|
 fire_modeling_yr = 16  # year w/o century                #|
 LANDIS_yr = 30                                           #|
+FireScenario = 1                                         #|
 LANDIS_Scenario = 1                                      #|
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
-input_file = 'Scenario_1_year_30latlon.csv'              #|
+input_file = 'Scenario_'+str(FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
 my_fake_value = 1e-30                                    #|
 write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
@@ -98,7 +99,7 @@ input_FilePath = os.path.join(input_dir , input_file)
 if os.path.isfile(input_FilePath) == True :
     print('-> input file exists!')
 else:
-    print('-> input file is NOT there!')
+    print('-> input file is NOT there, or the file name is incorrect!')
 print('+----------------------------------------------------+')
 
 user_input = input('-> do you want to continue with these settings? (Y/N)')
@@ -534,7 +535,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_FireScen_'+str(LANDIS_yr)+'_withfakevalue.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(FireScenario)+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

@@ -73,8 +73,10 @@ print('| LANDIS scenario year is = %s' %LANDIS_yr)
 print('| input file is           = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
-print('| please first check the input file, each column should have the following labling format:\
-   <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
+print('+----------------------------------------------------+')
+print('| please first check input csv file has the following labling format:')
+print('| <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
+print('| FireDay-30')
 print('+----------------------------------------------------+')
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
@@ -111,14 +113,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     input_csv = pd.read_csv(input_FilePath)
 
     # doing some statistics ...
-    #filter_Aug_Jdays = (input_csv['Day-of-Fire'] >= 213) & (input_csv['Day-of-Fire'] <= 243)
+    #filter_Aug_Jdays = (input_csv['FireDay-%s' %LANDIS_yr] >= 213) & (input_csv['FireDay-%s' %LANDIS_yr] <= 243)
     #df_filter_Aug = input_csv[filter_Aug_Jdays].copy()
 
     # --- define a condition (filter) to filter zero-rows:
 
     #threshold = 0.00001
     #filter_NoZero = (input_csv['Heat-25'] != 0) & (input_csv['NOx-Flaming'] != 0) & (input_csv['N2O-Flaming-25'] != 0)
-    filter_NoZero = ( input_csv['Day-of-Fire-%s' %LANDIS_yr] != 0 )
+    filter_NoZero = ( input_csv['FireDay-%s' %LANDIS_yr] != 0 )
 
     print('-> Julian days with index=0 are cleaned out!')
 
@@ -281,7 +283,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- modify dates from julian to calendar dates ------------------------------------------------
 
-            LANDIS_Jday = input_csv_filter_NoZero['Day-of-Fire-%s'%LANDIS_yr][LANDISrow]
+            LANDIS_Jday = input_csv_filter_NoZero['FireDay-%s'%LANDIS_yr][LANDISrow]
 
             if LANDIS_Jday == 0:
 

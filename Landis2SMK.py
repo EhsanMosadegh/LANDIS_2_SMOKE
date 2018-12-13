@@ -99,7 +99,7 @@ input_FilePath = os.path.join(input_dir , input_file)
 if os.path.isfile(input_FilePath) == True :
     print('-> input file exists!')
 else:
-    print('-> WARNING: input file is NOT there, or the file name is incorrect!')
+    print('-> WARNING: input file is NOT there, or file name is incorrect!')
     print('-> exiting...')
     raise SystemExit()
 print('+----------------------------------------------------+')
@@ -108,7 +108,8 @@ user_input = input('-> do you want to continue with these settings? (Y/N)')
 
 if (user_input == 'n' or user_input == 'N' or user_input == 'no'):
     print('-> setting not approved, or there is an error!')
-    print('-> program exits!')
+    print('-> program exit!')
+    raise SystemExit()
 
 elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('------------------------------')

@@ -6,7 +6,8 @@
 #
 # NOTES:
 #	- each unique fire is defined by = region + fireID
-# - script does not work for single month; only works for a full year
+#   - script does not work for single month; only works for a full year
+#   - each head should have this format: <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr>
 #
 # NEED TODO:
 #	 - add header row
@@ -27,7 +28,7 @@ import datetime as dt
 run_mode_index = 1                                       #|
 SCCmode_index  = 1                                       #|
                                                          #|
-modeling_month = '08'                                    #|
+#modeling_month = '08' # ignoire it                       #|
 POL_input_emis_unit = 'megagrams'                        #|
 POL_output_emis_unit = 'tons'                            #|
 emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
@@ -37,7 +38,7 @@ fire_modeling_yr = 16  # year w/o century                #|
 LANDIS_yr = 30                                           #|
 LANDIS_Scenario = 1                                      #|
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
-input_file = 'Scenario1_year30latlon.csv'                #|
+input_file = 'Scenario_1_year_30latlon.csv'                #|
 write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
@@ -72,6 +73,8 @@ print('| LANDIS scenario year is = %s' %LANDIS_yr)
 print('| input file is           = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
+print('| please first check the input file, each column should have the following labling format:\
+   <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
 print('+----------------------------------------------------+')
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
@@ -192,16 +195,16 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- for NEI 2011 - total SCC mode
     POL_dict_4SCC_total = {
-            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s'%LANDIS_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s'%LANDIS_yr][LANDISrow],    '2810001000'],
-            'CO2_tot':      ['CO2',     input_csv_filter_NoZero['CO2-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CO2-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
-            'CH4_tot':      ['CH4',     input_csv_filter_NoZero['CH4-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CH4-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
-            'SO2_tot':      ['SO2',     input_csv_filter_NoZero['SO2-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['SO2-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
-            'NH3_tot':      ['NH3',     input_csv_filter_NoZero['NH3-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NH3-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
-            'NMOC_tot':     ['VOC',     input_csv_filter_NoZero['NMOC-Smoldering-%s'%LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['NMOC-Flaming-%s'%LANDIS_yr][LANDISrow],  '2810001000'],
-            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOx-Smoldering-%s'%LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NOx-Flaming-%s'%LANDIS_yr][LANDISrow],   '2810001000'],
-            'PM10_tot':     ['PM10',    input_csv_filter_NoZero['PM10-Smoldering-%s'%LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['PM10-Flaming-%s'%LANDIS_yr][LANDISrow],  '2810001000'],
-            'PM2.5_tot':    ['PM2_5',   input_csv_filter_NoZero['PM2.5-Smoldering-%s'%LANDIS_yr][LANDISrow]     +   input_csv_filter_NoZero['PM2.5-Flaming-%s'%LANDIS_yr][LANDISrow], '2810001000'],
-            'heat_flux':    ['HFLUX',   input_csv_filter_NoZero['Heat-%s'%LANDIS_yr][LANDISrow],                                                                                               '2810001000'],
+            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s' %LANDIS_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s' %LANDIS_yr][LANDISrow],    '2810001000'],
+            'CO2_tot':      ['CO2',     input_csv_filter_NoZero['CO2-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CO2-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'CH4_tot':      ['CH4',     input_csv_filter_NoZero['CH4-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CH4-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'SO2_tot':      ['SO2',     input_csv_filter_NoZero['SO2-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['SO2-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'NH3_tot':      ['NH3',     input_csv_filter_NoZero['NH3-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NH3-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'NMOC_tot':     ['VOC',     input_csv_filter_NoZero['NMOC-Smoldering-%s' %LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['NMOC-Flaming-%s' %LANDIS_yr][LANDISrow],  '2810001000'],
+            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOx-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NOx-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'PM10_tot':     ['PM10',    input_csv_filter_NoZero['PM10-Smoldering-%s' %LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['PM10-Flaming-%s' %LANDIS_yr][LANDISrow],  '2810001000'],
+            'PM2.5_tot':    ['PM2_5',   input_csv_filter_NoZero['PM2.5-Smoldering-%s' %LANDIS_yr][LANDISrow]     +   input_csv_filter_NoZero['PM2.5-Flaming-%s' %LANDIS_yr][LANDISrow], '2810001000'],
+            'heat_flux':    ['HFLUX',   input_csv_filter_NoZero['HEAT-%s' %LANDIS_yr][LANDISrow],                                                                                               '2810001000'],
             'acres_burned': ['ACRESBURNED',pixel_area_in_Ha,                                                                                                                                            '2810001000'],
             }
 

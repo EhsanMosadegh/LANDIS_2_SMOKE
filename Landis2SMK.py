@@ -443,6 +443,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- define fire date list
 
+    print('-> calculating fake fire data for missing days...')
+
     fire_days_list    =  []  # list of fire days in LANDIS
 
     missing_jdays_list = []  # list of jdays that is not inside LANDIS and therefore LANDIS does not have fires for them

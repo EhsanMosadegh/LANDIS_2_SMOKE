@@ -186,8 +186,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 #            'NH3_F':        ['NH3',         input_csv_filter_NoZero['NH3-Flaming-25'][LANDISrow],     '28100010F0'],
 #            'NMOC_S':       ['VOC',         input_csv_filter_NoZero['NMOC-Smoldering-25'][LANDISrow], '28100010S0'],
 #            'NMOC_F':       ['VOC',         input_csv_filter_NoZero['NMOC-Flaming-25'][LANDISrow],    '28100010F0'],
-#            'NOx_S':        ['NOX',         input_csv_filter_NoZero['NOx-Smoldering'][LANDISrow],     '28100010S0'],
-#            'NOx_F':        ['NOX',         input_csv_filter_NoZero['NOx-Flaming'][LANDISrow],        '28100010F0'],
+#            'NOx_S':        ['NOX',         input_csv_filter_NoZero['NOX-Smoldering'][LANDISrow],     '28100010S0'],
+#            'NOx_F':        ['NOX',         input_csv_filter_NoZero['NOX-Flaming'][LANDISrow],        '28100010F0'],
 #            'PM10_S':       ['PM10',        input_csv_filter_NoZero['PM10-Smoldering-25'][LANDISrow], '28100010S0'],
 #            'PM10_F':       ['PM10',        input_csv_filter_NoZero['PM10-Flaming-25'][LANDISrow],    '28100010F0'],
 #            'PM2.5_S':      ['PM2_5',       input_csv_filter_NoZero['PM2.5-Smoldering-25'][LANDISrow],'28100010S0'],
@@ -198,13 +198,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- for NEI 2011 - total SCC mode
     POL_dict_4SCC_total = {
-            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s' %LANDIS_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s' %LANDIS_yr][LANDISrow],    '2810001000'],
+            'CO_tot':       ['CO',      input_csv_filter_NoZero['CO-Smoldering-%s'%LANDIS_yr][LANDISrow]        +   input_csv_filter_NoZero['CO-Flaming-%s'%LANDIS_yr][LANDISrow],    '2810001000'],
             'CO2_tot':      ['CO2',     input_csv_filter_NoZero['CO2-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CO2-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
             'CH4_tot':      ['CH4',     input_csv_filter_NoZero['CH4-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['CH4-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
             'SO2_tot':      ['SO2',     input_csv_filter_NoZero['SO2-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['SO2-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
             'NH3_tot':      ['NH3',     input_csv_filter_NoZero['NH3-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NH3-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
             'NMOC_tot':     ['VOC',     input_csv_filter_NoZero['NMOC-Smoldering-%s' %LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['NMOC-Flaming-%s' %LANDIS_yr][LANDISrow],  '2810001000'],
-            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOx-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NOx-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
+            'NOx_tot':      ['NOX',     input_csv_filter_NoZero['NOX-Smoldering-%s' %LANDIS_yr][LANDISrow]       +   input_csv_filter_NoZero['NOX-Flaming-%s' %LANDIS_yr][LANDISrow],   '2810001000'],
             'PM10_tot':     ['PM10',    input_csv_filter_NoZero['PM10-Smoldering-%s' %LANDIS_yr][LANDISrow]      +   input_csv_filter_NoZero['PM10-Flaming-%s' %LANDIS_yr][LANDISrow],  '2810001000'],
             'PM2.5_tot':    ['PM2_5',   input_csv_filter_NoZero['PM2.5-Smoldering-%s' %LANDIS_yr][LANDISrow]     +   input_csv_filter_NoZero['PM2.5-Flaming-%s' %LANDIS_yr][LANDISrow], '2810001000'],
             'heat_flux':    ['HFLUX',   input_csv_filter_NoZero['HEAT-%s' %LANDIS_yr][LANDISrow],                                                                                               '2810001000'],
@@ -312,8 +312,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- set lat/lon ----------------------
 
-            LAT = input_csv_filter_NoZero['Lat'][LANDISrow]  
-            LON = input_csv_filter_NoZero['Long'][LANDISrow]  
+            LAT = input_csv_filter_NoZero['Lat'][LANDISrow]
+            LON = input_csv_filter_NoZero['Long'][LANDISrow]
 
             # --- fixed parameters ---------------------------------------------
 

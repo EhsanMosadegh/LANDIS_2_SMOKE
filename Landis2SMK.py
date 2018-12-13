@@ -74,9 +74,10 @@ print('| input file is           = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
 print('+----------------------------------------------------+')
-print('| please first check input csv file has the following labling format:')
+print('| NOTE: check column labels...')
+print('| Input csv file should have the following labling format:')
 print('| <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
-print('| FireDay-30')
+print('| FireDay-<LANDIS_yr>')
 print('+----------------------------------------------------+')
 
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'

@@ -531,7 +531,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_FireScen_'+str(LANDIS_yr)+'_withfakevalue.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(FireScenario)+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 

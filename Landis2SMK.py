@@ -25,33 +25,33 @@ import datetime as dt
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
-run_mode_index = 1                                       #|
-SCCmode_index  = 1                                       #|
+run_mode_index          = 1                                       #|
+SCCmode_index           = 1                                       #|
                                                          #|
 #modeling_month = '08' # ignoire it                       #|
-POL_input_emis_unit = 'megagrams'                        #|
-POL_output_emis_unit = 'tons'                            #|
-emis_conv_factr_2tone = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
-pixel_area_in_Ha = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-region_code = '"06017"'                                  #|
-fire_modeling_yr = 16  # year w/o century                #|
-LANDIS_yr = 30                                           #|
-FireScenario = 1                                         #|
-LANDIS_Scenario = 1                                      #|
-Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
-input_file = 'Scenario_'+str(FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
-my_fake_value = 1e-30                                    #|
-write_output = 'yes' #   (yes, no)                       #|
+POL_input_emis_unit     = 'megagrams'                        #|
+POL_output_emis_unit    = 'tons'                            #|
+emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
+pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
+region_code             = '"06017"'                                  #|
+fire_modeling_yr        = 16  # year w/o century                #|
+LANDIS_yr               = 30                                           #|
+FireScenario            = 2                                         #|
+LANDIS_Scenario         = 1                                      #|
+Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre #|
+input_file              = 'Scenario_'+str(FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
+my_fake_value           = 1e-30                                    #|
+write_output            = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
-mode_ref_index = [      0       ,     1      ]  #        #|
-SCCmode_list      = ['SCC_devided' , 'SCC_total']  #     #|
-SCCmode      	     = SCCmode_list[SCCmode_index]          #|
+mode_ref_index          = [      0       ,     1      ]  #        #|
+SCCmode_list            = ['SCC_devided' , 'SCC_total']  #     #|
+SCCmode                 = SCCmode_list[SCCmode_index]          #|
                                                          #|
-run_mode_ref_index       = [      0     ,       1     ]  #|
-run_mode_list            = ['month_mode','annual_mode']  #|
-run_mode          = run_mode_list[run_mode_index]        #|
+run_mode_ref_index      = [      0     ,       1      ]  #|
+run_mode_list           = ['month_mode','annual_mode' ]  #|
+run_mode                = run_mode_list[run_mode_index]        #|
 #+--------------------------------------------------------+
 #############################################################################
 
@@ -63,19 +63,20 @@ print('+----------------------------------------------------+')
 print('-> run time settings are ...')
 print('+----------------------------------------------------+')
 #print('| SCCmode index is     = %s         ' %mode_index)
-print('| run-mode is             = %s         ' %run_mode)
-print('| SCCmode is              = %s         ' %SCCmode)
+print('| run-mode is             = %s'          %run_mode)
+print('| SCCmode is              = %s'          %SCCmode)
 #print('| modeling month is = %s, but might not be used!         ' %modeling_month)
-print('| input emission unit is  = %s' %POL_input_emis_unit )
-print('| output emission unit is = %s' %POL_output_emis_unit )
+print('| input emission unit is  = %s'          %POL_input_emis_unit )
+print('| output emission unit is = %s'          %POL_output_emis_unit )
 print('| emis. convert factor is = %s ( %s to %s )' % ( emis_conv_factr_2tone , POL_input_emis_unit , POL_output_emis_unit ))
 print('| size of pixel is        = %s hactares (100m * 100m)' %pixel_area_in_Ha)
-print('| SMOKE fire year is      = 20%s         ' %fire_modeling_yr)
-print('| LANDIS scenario year is = %s' %LANDIS_yr)
-print('| input file label is     = %s         ' %input_file)
-print('| fire region is          = %s         ' %region_code)
-print('| write output?           = %s         ' %write_output)
-print('| fake DATAVALUE set to   = %s'            %my_fake_value)
+print('| SMOKE fire year is      = 20%s'        %fire_modeling_yr)
+print('| LANDIS year is          = %s'          %LANDIS_yr)
+print('| fire scenario is        = %s'          %FireScenario)
+print('| input file label is     = %s'          %input_file)
+print('| fire region is          = %s'          %region_code)
+print('| write output?           = %s'          %write_output)
+print('| fake DATAVALUE set to   = %s'          %my_fake_value)
 print('+----------------------------------------------------+')
 print('| NOTE: check column labels...')
 print('| Input csv file should have the following labling format:')

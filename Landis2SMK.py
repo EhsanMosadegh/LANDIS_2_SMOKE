@@ -72,7 +72,7 @@ print('| emis. convert factor is = %s ( %s to %s )' % ( emis_conv_factr_2tone , 
 print('| size of pixel is        = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s         ' %fire_modeling_yr)
 print('| LANDIS scenario year is = %s' %LANDIS_yr)
-print('| input file is           = %s         ' %input_file)
+print('| input file label is     = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
 print('| fake DATAVALUE set to   = %s'            %my_fake_value)
@@ -99,7 +99,7 @@ input_FilePath = os.path.join(input_dir , input_file)
 if os.path.isfile(input_FilePath) == True :
     print('-> input file exists!')
 else:
-    print('-> input file is NOT there, or the file name is incorrect!')
+    print('-> WARNING: input file is NOT there, or the file name is incorrect!')
 print('+----------------------------------------------------+')
 
 user_input = input('-> do you want to continue with these settings? (Y/N)')

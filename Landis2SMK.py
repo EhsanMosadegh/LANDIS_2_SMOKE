@@ -39,7 +39,7 @@ LANDIS_yr = 30                                           #|
 LANDIS_Scenario = 1                                      #|
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
 input_file = 'Scenario_1_year_30latlon.csv'              #|
-my_fake_value = '0.0000000001'                           #|
+my_fake_value = 1e-30                                    #|
 write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
@@ -74,7 +74,7 @@ print('| LANDIS scenario year is = %s' %LANDIS_yr)
 print('| input file is           = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
-print('| fake DATAVALUE set to = %s'            %my_fake_value)
+print('| fake DATAVALUE set to   = %s'            %my_fake_value)
 print('+----------------------------------------------------+')
 print('| NOTE: check column labels...')
 print('| Input csv file should have the following labling format:')

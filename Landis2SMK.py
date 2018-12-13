@@ -100,6 +100,8 @@ if os.path.isfile(input_FilePath) == True :
     print('-> input file exists!')
 else:
     print('-> WARNING: input file is NOT there, or the file name is incorrect!')
+    print('-> exiting...')
+    raise SystemExit()
 print('+----------------------------------------------------+')
 
 user_input = input('-> do you want to continue with these settings? (Y/N)')

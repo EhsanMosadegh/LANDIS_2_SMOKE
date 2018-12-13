@@ -38,7 +38,8 @@ fire_modeling_yr = 16  # year w/o century                #|
 LANDIS_yr = 30                                           #|
 LANDIS_Scenario = 1                                      #|
 Ha_to_Acre_rate = 2.47105 # rate to change to Ha to Acre #|
-input_file = 'Scenario_1_year_30latlon.csv'                #|
+input_file = 'Scenario_1_year_30latlon.csv'              #|
+my_fake_value = '0.0000000001'                           #|
 write_output = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
@@ -73,6 +74,7 @@ print('| LANDIS scenario year is = %s' %LANDIS_yr)
 print('| input file is           = %s         ' %input_file)
 print('| fire region is          = %s         ' %region_code)
 print('| write output?           = %s         ' %write_output)
+print('| fake DATAVALUE set to = %s'            %my_fake_value)
 print('+----------------------------------------------------+')
 print('| NOTE: check column labels...')
 print('| Input csv file should have the following labling format:')
@@ -445,13 +447,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         if jday in LANDIS_annual_jday_list :
 
-            print('-> Jday = %s is in LANDIS file, so it is a fire day!' %jday)
+            #print('-> Jday = %s is in LANDIS file, so it is a fire day!' %jday)
 
             fire_days_list.append(jday)
 
         else:
 
-            print('-> LANDIS has NO fire for Jday (%s) !' %jday)
+            #print('-> LANDIS has NO fire for Jday (%s) !' %jday)
 
             missing_jdays_list.append(jday)
 
@@ -459,7 +461,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     for missing_jday in missing_jdays_list :
 
-        print('-> making fake fire emissions for Jday (%s) ...' %missing_jday)
+        #print('-> making fake fire emissions for Jday (%s) ...' %missing_jday)
 
         for pol_fake in SCCmode_toPOL_mapper[SCCmode][0]:
 
@@ -483,7 +485,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- other fixed fields ----------------------------------------------
 
-            DATAVALUE_fake  = '0.0000000001'
+            DATAVALUE_fake  = my_fake_value
 
             BEGHOUR_fake    = 0
             ENDHOUR_fake    = 23
@@ -510,7 +512,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     print('-----------------------------------------------------------------')
 
     # --- sort month DF by date-time (DATE) column for favorable month for writing out to csv as object
-    print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
+    #print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
 
     print('-> output master DF will be sorted in-place based on date-time column ...')

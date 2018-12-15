@@ -81,7 +81,7 @@ def latlon2fips (ilat , ilon):
 
         print( '-> region code was not found!' )
 
-        print( '-> using a dummy FIPS code of %s' %("5*00000") )
+        print( '-> using a dummy FIPS code of %s' %("00000") )
 
         region_code = '"00000"'
 
@@ -617,6 +617,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # --- sort month DF by date-time (DATE) column for favorable month for writing out to csv as object
     #print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
+
+    print('-> NOTE: we have (%s) fake FIPS with region_code: "%s" ' %( len(df_master_updated['FIPS']=="00000") , "00000"  ) )
 
     print('-> output master DF will be sorted in-place based on date-time column ...')
 

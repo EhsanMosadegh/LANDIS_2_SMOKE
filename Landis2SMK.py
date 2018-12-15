@@ -108,10 +108,9 @@ pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixe
 fips_fake               = '"06017"'                                  #|
 fire_modeling_yr        = 16  # year w/o century                #|
 LANDIS_yr               = 30                                           #|
-FireScenario            = 5                                         #|
-LANDIS_Scenario         = 1                                      #|
+LANDIS_FireScenario     = 1                                         #|
 Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre #|
-input_file              = 'Scenario_'+str(FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
+input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
 my_fake_value           = 1e-30                                    #|
 write_output            = 'yes' #   (yes, no)                       #|
 #+--------------------------------------------------------+
@@ -146,7 +145,7 @@ print('| emis. convert factor is = %s ( %s to %s )' % ( emis_conv_factr_2tone , 
 print('| size of pixel is        = %s hactares (100m * 100m)' %pixel_area_in_Ha)
 print('| SMOKE fire year is      = 20%s'        %fire_modeling_yr)
 print('| LANDIS year is          = %s'          %LANDIS_yr)
-print('| fire scenario is        = %s'          %FireScenario)
+print('| fire scenario is        = %s'          %LANDIS_FireScenario)
 print('| input file label is     = %s'          %input_file)
 print('| fake FIPS is set to     = %s'          %fips_fake)
 print('| write output?           = %s'          %write_output)
@@ -631,14 +630,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(FireScenario)+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(FireScenario)+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

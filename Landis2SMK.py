@@ -21,6 +21,78 @@ import pandas as pd
 import datetime as dt
 
 #############################################################################
+# define functions
+
+def latlon2fips (ilat , ilon):
+
+    if ( -120.000 < ilon and 39.1668 < ilat ):
+        # Washoe county
+        region_code = '"32031"'
+
+    elif ( -120.000 < ilon and 39.1125 < ilat < 39.1668 ):
+        # Carson county
+        region_code = '"32510"'
+
+    elif ( -120.000 < ilon and 38.9995 < ilat < 39.1125 ):
+        # Douglas county
+        region_code = '"32005"'
+
+    elif ( ilon < -120.000 and ilat > 39.7080 ):
+        # Plumas county
+        region_code = '"06063"'
+
+    elif ( ilon < -120.000 and 39.4450 < ilat < 39.7080 ):
+        # Sierra county
+        region_code = '"06091"'
+
+    elif ( ilon < -120.000 and 39.3166 < ilat < 39.4450 ):
+        # Nevada county
+        region_code = '"06057"'
+
+    elif ( ilon < -120.000 and 39.0683 < ilat < 39.3166 ):
+        # Placer county
+        region_code = '"06061"'
+
+    elif ( -120.1654 < ilon < -120.000 and 39.0240 < ilat < 39.0683 ):
+        # El Dorado county - Tahoma city 
+        region_code = '"06017"'
+
+    elif ( ilon < -120.1654 and 39.0240 < ilat < 39.0683 ):
+        # bottom left part of Placer county
+        region_code = '"06061"'
+
+    elif ( ilon < -120.000 and ilat < 39.0240 ):
+        # lower part of El Dorado county - including Emerald bay
+        region_code = '"06017"'
+
+    elif ( -120.000 < ilon < -119.8814 and ilat < 38.9638 ):
+        # El Dorado county - Mountain peqk and Heavenly village + top parts of Alpine county!
+        region_code = '"06017"'
+
+    elif ( -120.000 < ilon < -119.8814 and 38.9638 < ilat < 38.9995 ):
+        # Douglas county - small area below Zephyr cove
+        region_code = '"32005"'
+
+    elif ( -119.8814 < ilon and ilat < 38.9995 ):
+        # Douglas county - rest 
+        region_code = '"32005"'
+
+    else:
+
+        print( '-> region code was not found!' )
+
+        print( '-> using a dummy FIPS code of %s' %("5*00000") )
+
+        region_code = '"00000"'
+
+    return region_code;
+
+# define functions
+#############################################################################
+
+
+#############################################################################
+# define run parameters
 
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
@@ -33,10 +105,10 @@ POL_input_emis_unit     = 'megagrams'                        #|
 POL_output_emis_unit    = 'tons'                            #|
 emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-region_code             = '"06017"'                                  #|
+#region_code             = '"06017"'                                  #|
 fire_modeling_yr        = 16  # year w/o century                #|
 LANDIS_yr               = 30                                           #|
-FireScenario            = 2                                         #|
+FireScenario            = 5                                         #|
 LANDIS_Scenario         = 1                                      #|
 Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre #|
 input_file              = 'Scenario_'+str(FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
@@ -53,6 +125,8 @@ run_mode_ref_index      = [      0     ,       1      ]  #|
 run_mode_list           = ['month_mode','annual_mode' ]  #|
 run_mode                = run_mode_list[run_mode_index]        #|
 #+--------------------------------------------------------+
+
+# define run parameters
 #############################################################################
 
 
@@ -74,7 +148,7 @@ print('| SMOKE fire year is      = 20%s'        %fire_modeling_yr)
 print('| LANDIS year is          = %s'          %LANDIS_yr)
 print('| fire scenario is        = %s'          %FireScenario)
 print('| input file label is     = %s'          %input_file)
-print('| fire region is          = %s'          %region_code)
+#print('| fire region is          = %s'          %region_code)
 print('| write output?           = %s'          %write_output)
 print('| fake DATAVALUE set to   = %s'          %my_fake_value)
 print('+----------------------------------------------------+')
@@ -84,6 +158,8 @@ print('| <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
 print('| FireDay-<LANDIS_yr>')
 print('+----------------------------------------------------+')
 
+# --- setting directories
+
 work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
 repository_name = 'LANDIS_to_SMOKE'
 script_dir = work_dir+'/github/'+repository_name
@@ -91,18 +167,29 @@ input_dir = work_dir+'/inputs'
 output_dir = work_dir+'/outputs'
 
 if os.path.isdir(work_dir) == True :
+
     print('-> work directory exists!')
+
 else:
+
     print('-> there is an issue with work directory')
 
 input_FilePath = os.path.join(input_dir , input_file)
 
+# --- checking pathes and directories
+
 if os.path.isfile(input_FilePath) == True :
+
     print('-> input file exists!')
+
 else:
+
     print('-> WARNING: input file is NOT there, or file name is incorrect!')
+    
     print('-> exiting...')
+    
     raise SystemExit()
+
 print('+----------------------------------------------------+')
 
 user_input = input('-> do you want to continue with these settings? (Y/N)')

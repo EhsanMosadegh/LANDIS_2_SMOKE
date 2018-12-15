@@ -409,9 +409,17 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             LAT = input_csv_filter_NoZero['Lat'][LANDISrow]
             LON = input_csv_filter_NoZero['Long'][LANDISrow]
 
+            ilat = LAT
+            ilon = LON
+
+            #print('-> calculating FIPS for ilat: %s and ilon: %s ' %( ilat , ilon) )
+
+            FIPS = latlon2fips( ilat , ilon )
+
+            #FIPS = region_code
+
             # --- fixed parameters ---------------------------------------------
 
-            FIPS = region_code
             BEGHOUR = 0
             ENDHOUR = 23
             FIRENAME = '"'+'USFS_FireScen_'+str(LANDIS_Scenario)+'"'

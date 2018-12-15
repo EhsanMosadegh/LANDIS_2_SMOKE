@@ -148,7 +148,7 @@ print('| SMOKE fire year is      = 20%s'        %fire_modeling_yr)
 print('| LANDIS year is          = %s'          %LANDIS_yr)
 print('| fire scenario is        = %s'          %FireScenario)
 print('| input file label is     = %s'          %input_file)
-#print('| fire region is          = %s'          %region_code)
+print('| fake FIPS is set to     = %s'          %fips_fake)
 print('| write output?           = %s'          %write_output)
 print('| fake DATAVALUE set to   = %s'          %my_fake_value)
 print('+----------------------------------------------------+')
@@ -410,13 +410,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             LON = input_csv_filter_NoZero['Long'][LANDISrow]
 
             # --- estimate and set region code = FIPS from my function ----------
-            
+
             ilat = LAT
             ilon = LON
 
-            #print('-> calculating FIPS for ilat: %s and ilon: %s ' %( ilat , ilon) )
-
             FIPS = latlon2fips( ilat , ilon )
+
+            print('-> estimated FIPS: %s for LANDIS ilat: %s and ilon: %s ' %( region_code , ilat , ilon ) )
 
             #FIPS = region_code
 

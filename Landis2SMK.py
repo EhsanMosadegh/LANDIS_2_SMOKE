@@ -409,6 +409,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             LAT = input_csv_filter_NoZero['Lat'][LANDISrow]
             LON = input_csv_filter_NoZero['Long'][LANDISrow]
 
+            # --- estimate and set region code = FIPS from my function ----------
+            
             ilat = LAT
             ilon = LON
 

@@ -105,7 +105,7 @@ POL_input_emis_unit     = 'megagrams'                        #|
 POL_output_emis_unit    = 'tons'                            #|
 emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-#region_code             = '"06017"'                                  #|
+fips_fake               = '"06017"'                                  #|
 fire_modeling_yr        = 16  # year w/o century                #|
 LANDIS_yr               = 30                                           #|
 FireScenario            = 5                                         #|
@@ -571,7 +571,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- extract pollutant and data value from dictionary ----------------
 
-            FIPS_fake   = region_code
+            FIPS_fake   = fips_fake
             FIREID_fake = '"'+'FID_fake_'+str(missing_jday)+'"'
 #            LOCID_fake  = '"'+'PID_fake_'+str(missing_jday)+'"'
             LOCID_fake  = '"-9"'

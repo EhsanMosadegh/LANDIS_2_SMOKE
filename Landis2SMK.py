@@ -415,7 +415,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             FIPS = latlon2fips( ilat , ilon )
 
-            print('-> estimated FIPS: %s for LANDIS ilat: %s and ilon: %s ' %( region_code , ilat , ilon ) )
+            print('-> estimated FIPS: %s for LANDIS ilat: %s and ilon: %s ' %( FIPS , ilat , ilon ) )
 
             #FIPS = region_code
 

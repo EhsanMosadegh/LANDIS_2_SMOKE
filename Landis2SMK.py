@@ -415,7 +415,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             FIPS = latlon2fips( ilat , ilon )
 
-            print('-> estimated FIPS: %s for LANDIS ilat: %s and ilon: %s ' %( FIPS , ilat , ilon ) )
+            print('-> estimated FIPS: %s for LANDIS LAT: %s and LON: %s ' %( FIPS , ilat , ilon ) )
 
             #FIPS = region_code
 
@@ -423,7 +423,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             BEGHOUR = 0
             ENDHOUR = 23
-            FIRENAME = '"'+'USFS_FireScen_'+str(LANDIS_Scenario)+'"'
+            FIRENAME = '"'+'USFS_FireScen_'+str(LANDIS_FireScenario)+'"'
             NFDRSCODE = '"-9"'
             MATBURNED = 12
             HEATCONTENT = 8000

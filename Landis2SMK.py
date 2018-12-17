@@ -54,7 +54,7 @@ def latlon2fips (ilat , ilon):
         region_code = '"06061"'
 
     elif ( -120.1654 < ilon < -120.000 and 39.0240 < ilat < 39.0683 ):
-        # El Dorado county - Tahoma city 
+        # El Dorado county - Tahoma city
         region_code = '"06017"'
 
     elif ( ilon < -120.1654 and 39.0240 < ilat < 39.0683 ):
@@ -74,16 +74,18 @@ def latlon2fips (ilat , ilon):
         region_code = '"32005"'
 
     elif ( -119.8814 < ilon and ilat < 38.9995 ):
-        # Douglas county - rest 
+        # Douglas county - rest
         region_code = '"32005"'
 
     else:
 
+        FIPS_not_found = '"00000"'
+
         print( '-> region code was not found!' )
 
-        print( '-> using a dummy FIPS code of %s' %("00000") )
+        print( '-> using a dummy FIPS code of %s' %FIPS_not_found )
 
-        region_code = '"00000"'
+        region_code = FIPS_not_found
 
     return region_code;
 
@@ -618,7 +620,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     #print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
 
-    print('-> NOTE: we have (%s) fake FIPS with region_code: "%s" ' %( len(df_master_updated['FIPS']=="00000") , "00000"  ) )
+    print('-> NOTE: we have (%s) fake FIPS with region_code: "%s" ' %( df_master_updated.FIPS[df_master_updated['FIPS'] == FIPS_not_found ].count() , FIPS_not_found  ) )
 
     print('-> output master DF will be sorted in-place based on date-time column ...')
 

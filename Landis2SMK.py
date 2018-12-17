@@ -79,7 +79,9 @@ def latlon2fips (ilat , ilon):
 
     else:
 
-        FIPS_not_found = '"00000"'
+        global FIPS_not_found
+
+        #FIPS_not_found = '"00000"'
 
         print( '-> region code was not found!' )
 
@@ -115,6 +117,8 @@ Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre #|
 input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
 my_fake_value           = 1e-30                                    #|
 write_output            = 'yes' #   (yes, no)                       #|
+
+FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
@@ -594,8 +598,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             BEGHOUR_fake    = 0
             ENDHOUR_fake    = 23
-            LAT_fake        = 38.95456
-            LON_fake        = -120.07861
+            LAT_fake        = 40.000 #38.95456
+            LON_fake        = -100.000 #-120.07861
             FIRENAME_fake   = '"USFS_fakefire"'
             NFDRSCODE_fake  = '"-9"'
             MATBURNED_fake  = 12
@@ -620,7 +624,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     #print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
     print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
 
-    print('-> NOTE: we have (%s) fake FIPS with region_code: "%s" ' %( df_master_updated.FIPS[df_master_updated['FIPS'] == FIPS_not_found ].count() , FIPS_not_found  ) )
+    print('-> NOTE: we have (%s) fake FIPS with region_code: (%s) ' %( df_master_updated.FIPS[df_master_updated['FIPS'] == FIPS_not_found ].count() , FIPS_not_found  ) )
 
     print('-> output master DF will be sorted in-place based on date-time column ...')
 

@@ -8,6 +8,7 @@
 #	- each unique fire is defined by = region + fireID
 #   - script does not work for single month; only works for a full year
 #   - each head should have this format: <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr>
+#   - function latlon2fips is only used for real lat/lon fires inside Landis file, not for fake fires
 #
 # NEED TODO:
 #	 - add header row
@@ -66,7 +67,7 @@ def latlon2fips (ilat , ilon):
         region_code = '"06017"'
 
     elif ( -120.000 < ilon < -119.8814 and ilat < 38.9638 ):
-        # El Dorado county - Mountain peqk and Heavenly village + top parts of Alpine county!
+        # El Dorado county - Mountain peak and Heavenly village + top parts of Alpine county!
         region_code = '"06017"'
 
     elif ( -120.000 < ilon < -119.8814 and 38.9638 < ilat < 38.9995 ):

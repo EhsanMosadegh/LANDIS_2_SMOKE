@@ -82,8 +82,6 @@ def latlon2fips (ilat , ilon):
 
         global FIPS_not_found
 
-        #FIPS_not_found = '"00000"'
-
         print( '-> region code was not found!' )
 
         print( '-> using a dummy FIPS code of %s' %FIPS_not_found )
@@ -102,34 +100,35 @@ def latlon2fips (ilat , ilon):
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
-run_mode_index          = 1                                       #|
-SCCmode_index           = 1                                       #|
-                                                         #|
-#modeling_month = '08' # ignoire it                       #|
-POL_input_emis_unit     = 'megagrams'                        #|
-POL_output_emis_unit    = 'tons'                            #|
+run_mode_index          = 1                                      
+SCCmode_index           = 1                                      
+
+#modeling_month = '08' # ignoire it                     
+POL_input_emis_unit     = 'megagrams'                      
+POL_output_emis_unit    = 'tons'                         
 emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-fips_fake               = '"06017"'                                  #|
-fire_modeling_yr        = 16  # year w/o century                #|
-LANDIS_yr               = 30                                           #|
-LANDIS_FireScenario     = 1                                         #|
-Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre #|
-input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'              #|
-my_fake_value           = 1e-30                                    #|
-write_output            = 'yes' #   (yes, no)                       #|
+fips_fake               = '"06017"'                                
 
+LANDIS_FireScenario     = 2
+write_output            = 'yes' #   (yes, no)                     
+                                 
+fire_modeling_yr        = 16  # year w/o century            
+LANDIS_yr               = 30                                      
+Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre 
+input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'          
+my_fake_value           = 1e-30                                
 FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
-mode_ref_index          = [      0       ,     1      ]  #        #|
-SCCmode_list            = ['SCC_devided' , 'SCC_total']  #     #|
-SCCmode                 = SCCmode_list[SCCmode_index]          #|
-                                                         #|
-run_mode_ref_index      = [      0     ,       1      ]  #|
-run_mode_list           = ['month_mode','annual_mode' ]  #|
-run_mode                = run_mode_list[run_mode_index]        #|
+mode_ref_index          = [      0       ,     1      ]  
+SCCmode_list            = ['SCC_devided' , 'SCC_total']  
+SCCmode                 = SCCmode_list[SCCmode_index]    
+
+run_mode_ref_index      = [      0     ,       1      ]  
+run_mode_list           = ['month_mode','annual_mode' ]
+run_mode                = run_mode_list[run_mode_index]
 #+--------------------------------------------------------+
 
 # define run parameters
@@ -599,8 +598,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             BEGHOUR_fake    = 0
             ENDHOUR_fake    = 23
-            LAT_fake        = 40.000 #38.95456
-            LON_fake        = -100.000 #-120.07861
+            LAT_fake        = 39.09 #38.95456
+            LON_fake        = -120.03 #-120.07861
             FIRENAME_fake   = '"USFS_fakefire"'
             NFDRSCODE_fake  = '"-9"'
             MATBURNED_fake  = 12
@@ -623,7 +622,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # --- sort month DF by date-time (DATE) column for favorable month for writing out to csv as object
     #print('-> NOTE: fake DATAVALUE of (%s) was replaced at missing fire days!' %DATAVALUE_fake)
-    print('-> NOTE: fake lat = %s and lon= %s was set for missing fire days!' %(LAT_fake , LON_fake))
+    print('-> NOTE: fake lat = %s and lon= %s is set to missing fire days from inside the modeling domain!' %(LAT_fake , LON_fake))
 
     print('-> NOTE: we have (%s) fake FIPS with region_code: (%s) ' %( df_master_updated.FIPS[df_master_updated['FIPS'] == FIPS_not_found ].count() , FIPS_not_found  ) )
 

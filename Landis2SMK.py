@@ -132,7 +132,7 @@ run_mode_list               = ['month_mode','annual_mode' ]
 run_mode                    = run_mode_list[run_mode_index]
 
 region_code_mode_ref_index  = [      0   ,          1     ]  # only a ref for index, not used anywhere
-region_code_mode_list       = ['SingleFIPS' , 'MultiFIPS']
+region_code_mode_list       = ['FixedFIPS' , 'MultiFIPS']
 region_code_mode            = region_code_mode_list[region_code_mode_index]   
 #+--------------------------------------------------------+
 
@@ -422,7 +422,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- setting region code mode -------------------------------------
 
-            if ( region_code_mode == 'SingleFIPS' ) :  # fixed FIPS code method
+            if ( region_code_mode == 'FixedFIPS' ) :  # fixed FIPS code method
 
                 FIPS = fips_fake
 

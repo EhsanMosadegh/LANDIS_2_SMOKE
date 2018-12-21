@@ -111,7 +111,7 @@ emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
 fips_fake               = '"06017"'                                
 
-LANDIS_FireScenario     = 4
+LANDIS_FireScenario     = 2
 write_output            = 'yes' #   (yes, no)                     
 
 fire_modeling_yr        = 16  # year w/o century            
@@ -149,6 +149,7 @@ print('+----------------------------------------------------+')
 #print('| SCCmode index is     = %s         ' %mode_index)
 print('| run-mode is             = %s'          %run_mode)
 print('| SCCmode is              = %s'          %SCCmode)
+print('| region_code mode set to = %s'          %region_code_mode)
 #print('| modeling month is = %s, but might not be used!         ' %modeling_month)
 print('| input emission unit is  = %s'          %POL_input_emis_unit )
 print('| output emission unit is = %s'          %POL_output_emis_unit )
@@ -159,7 +160,6 @@ print('| LANDIS year is          = %s'          %LANDIS_yr)
 print('| LANDIS fire scenario is = %s'          %LANDIS_FireScenario)
 print('| input file label is     = %s'          %input_file)
 print('| fake FIPS is set to     = %s'          %fips_fake)
-print('| region_code mode set to = %s'          %region_code_mode)
 print('| fake DATAVALUE set to   = %s'          %my_fake_value)
 print('| write output?           = %s'          %write_output)
 print('+----------------------------------------------------+')
@@ -631,7 +631,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # print number of fire days
     print('-----------------------------------------------------------------')
-    print('-> we have (%s) fire days in LANDIS file for modeling year (%s)...' %( len(fire_days_list) , fire_yr ) )
+    print('-> we have (%s) fire days in scenario: %s and LANDIS year: %s for modeling year: %s...' %( len(fire_days_list) , LANDIS_yr , LANDIS_FireScenario , fire_yr ) )
     print('-> Julian days with fire in LANDIS are:')
     for fireday in fire_days_list:
         print( '-> Jday (%s)' %fireday )

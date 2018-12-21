@@ -100,8 +100,8 @@ def latlon2fips (ilat , ilon):
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
-run_mode_index          = 1                                      
 SCCmode_index           = 1  
+run_mode_index          = 1                                      
 region_code_mode_index  = 0                                 
 
 #modeling_month = '08' # ignoire it                     
@@ -123,17 +123,17 @@ FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
-mode_ref_index          = [      0       ,     1      ]  
+SCCmode_ref_index       = [      0       ,     1      ]  # only a ref for index, not used anywhere
 SCCmode_list            = ['SCC_devided' , 'SCC_total']  
 SCCmode                 = SCCmode_list[SCCmode_index]    
 
-run_mode_ref_index      = [      0     ,       1      ]  
+run_mode_ref_index      = [      0     ,       1      ]  # only a ref for index, not used anywhere
 run_mode_list           = ['month_mode','annual_mode' ]
 run_mode                = run_mode_list[run_mode_index]
 
-region_code_mode_index  = [   0   ,   1    ]
-region_code_mode_list   = ['single_fips' , 'latlon2fips']
-region_code_mode        = region_code_mode_list[region_code_mode_index]   
+region_code_mode_ref_index  = [      0   ,          1     ]  # only a ref for index, not used anywhere
+region_code_mode_list       = ['single_fips' , 'latlon2fips']
+region_code_mode            = region_code_mode_list[region_code_mode_index]   
 #+--------------------------------------------------------+
 
 # define run parameters

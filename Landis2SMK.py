@@ -111,8 +111,8 @@ emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
 fips_fake               = '"06017"'                                
 
-LANDIS_FireScenario     = 2
-write_output            = 'no' #   (yes, no)                     
+LANDIS_FireScenario     = 4
+write_output            = 'yes' #   (yes, no)                     
 
 fire_modeling_yr        = 16  # year w/o century            
 LANDIS_yr               = 30                                      
@@ -132,7 +132,7 @@ run_mode_list               = ['month_mode','annual_mode' ]
 run_mode                    = run_mode_list[run_mode_index]
 
 region_code_mode_ref_index  = [      0   ,          1     ]  # only a ref for index, not used anywhere
-region_code_mode_list       = ['single_fips' , 'latlon2fips']
+region_code_mode_list       = ['SingleFIPS' , 'MultiFIPS']
 region_code_mode            = region_code_mode_list[region_code_mode_index]   
 #+--------------------------------------------------------+
 
@@ -422,13 +422,13 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
             # --- setting region code mode -------------------------------------
 
-            if ( region_code_mode == 'single_fips' ) :  # fixed FIPS code method
+            if ( region_code_mode == 'SingleFIPS' ) :  # fixed FIPS code method
 
                 FIPS = fips_fake
 
                 print('-> FIPS was set to fixed region code: %s for LAT: %s and LON: %s ' %( FIPS , LAT , LON ) )
 
-            elif ( region_code_mode == 'latlon2fips' ) : # estimate and set region code == FIPS from my function 
+            elif ( region_code_mode == 'MultiFIPS' ) : # estimate and set region code == FIPS from my function 
 
                 ilat = LAT
                 ilon = LON
@@ -631,8 +631,8 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # print number of fire days
     print('-----------------------------------------------------------------')
-    print('-> we have (%s) fire days in scenario: %s and LANDIS year: %s for modeling year: %s...' %( len(fire_days_list) , LANDIS_FireScenario , LANDIS_yr , fire_yr ) )
-    print('-> Julian days with fire in LANDIS are:')
+    print('-> we have (%s) fire days in scenario: (%s) for LANDIS year: (%s) and modeling year: (%s)...' %( len(fire_days_list) , LANDIS_FireScenario , LANDIS_yr , fire_yr ) )
+    print('-> Julian days with fire in LANDIS scenario file are:')
     for fireday in fire_days_list:
         print( '-> Jday (%s)' %fireday )
     print('-----------------------------------------------------------------')
@@ -655,14 +655,14 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
     # set output file names
 
     # --- for PTDAY
-    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'.csv'  # must include file format at the end (.csv)
+    ptday_output_file_name = 'USFS_LANDIS_PTDAY_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'_'+region_code_mode+'.csv'  # must include file format at the end (.csv)
 
     ptday_header_list = ['FIPS','FIREID','LOCID','SCC','DATA','DATE','DATAVALUE','BEGHOUR','ENDHOUR']
 
     ptday_output_file_FullPath = os.path.join( output_dir , ptday_output_file_name )
 
     # --- for PTINV
-    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'.csv'  # must include file format at the end (.csv)
+    ptinv_output_file_name = 'USFS_LANDIS_PTINV_'+run_mode+'_'+SCCmode+'_LandisYR_'+str(LANDIS_yr)+'_FireScen_'+str(LANDIS_FireScenario)+'_'+region_code_mode+'.csv'  # must include file format at the end (.csv)
 
     ptinv_header_list = ['FIPS','FIREID','LOCID','SCC','FIRENAME','LAT','LON','NFDRSCODE','MATBURNED','HEATCONTENT']
 

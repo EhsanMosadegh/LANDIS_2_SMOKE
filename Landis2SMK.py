@@ -112,7 +112,7 @@ pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixe
 fips_fake               = '"06017"'                                
 
 LANDIS_FireScenario     = 2
-write_output            = 'yes' #   (yes, no)                     
+write_output            = 'no' #   (yes, no)                     
 
 fire_modeling_yr        = 16  # year w/o century            
 LANDIS_yr               = 30                                      
@@ -631,7 +631,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     # print number of fire days
     print('-----------------------------------------------------------------')
-    print('-> we have (%s) fire days in scenario: %s and LANDIS year: %s for modeling year: %s...' %( len(fire_days_list) , LANDIS_yr , LANDIS_FireScenario , fire_yr ) )
+    print('-> we have (%s) fire days in scenario: %s and LANDIS year: %s for modeling year: %s...' %( len(fire_days_list) , LANDIS_FireScenario , LANDIS_yr , fire_yr ) )
     print('-> Julian days with fire in LANDIS are:')
     for fireday in fire_days_list:
         print( '-> Jday (%s)' %fireday )

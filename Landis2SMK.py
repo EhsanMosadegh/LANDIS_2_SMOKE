@@ -420,16 +420,27 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
             LAT = input_csv_filter_NoZero['Lat'][LANDISrow]
             LON = input_csv_filter_NoZero['Long'][LANDISrow]
 
-            # --- estimate and set region code = FIPS from my function ----------
+            # --- setting region code mode -------------------------------------
 
-            ilat = LAT
-            ilon = LON
+            if ( region_code_mode == 'single_fips' ) :  # fixed FIPS code method
 
-            FIPS = latlon2fips( ilat , ilon )
+                FIPS = fips_fake
 
-            print('-> estimated FIPS: %s for LANDIS LAT: %s and LON: %s ' %( FIPS , ilat , ilon ) )
+                print('-> FIPS was set to fixed region code: %s for LAT: %s and LON: %s ' %( FIPS , LAT , LON ) )
 
-            #FIPS = region_code
+            elif ( region_code_mode == 'latlon2fips' ) : # estimate and set region code == FIPS from my function 
+
+                ilat = LAT
+                ilon = LON
+
+                FIPS = latlon2fips( ilat , ilon )
+
+                print('-> estimated FIPS: %s for LANDIS LAT: %s and LON: %s ' %( FIPS , ilat , ilon ) )
+
+            else:
+
+                print( '-> ERROR: region code method not defined well, program quits!' )
+                raise SystemExit()
 
             # --- fixed parameters ---------------------------------------------
 

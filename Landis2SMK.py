@@ -101,7 +101,8 @@ def latlon2fips (ilat , ilon):
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
 run_mode_index          = 1                                      
-SCCmode_index           = 1                                      
+SCCmode_index           = 1  
+region_code_mode_index  = 0                                 
 
 #modeling_month = '08' # ignoire it                     
 POL_input_emis_unit     = 'megagrams'                      
@@ -110,9 +111,9 @@ emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
 fips_fake               = '"06017"'                                
 
-LANDIS_FireScenario     = 2
+LANDIS_FireScenario     = 4
 write_output            = 'yes' #   (yes, no)                     
-                                 
+
 fire_modeling_yr        = 16  # year w/o century            
 LANDIS_yr               = 30                                      
 Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre 
@@ -129,6 +130,10 @@ SCCmode                 = SCCmode_list[SCCmode_index]
 run_mode_ref_index      = [      0     ,       1      ]  
 run_mode_list           = ['month_mode','annual_mode' ]
 run_mode                = run_mode_list[run_mode_index]
+
+region_code_mode_index  = [   0   ,   1    ]
+region_code_mode_list   = ['single_fips' , 'latlon2fips']
+region_code_mode        = region_code_mode_list[region_code_mode_index]   
 #+--------------------------------------------------------+
 
 # define run parameters
@@ -154,8 +159,8 @@ print('| LANDIS year is          = %s'          %LANDIS_yr)
 print('| LANDIS fire scenario is = %s'          %LANDIS_FireScenario)
 print('| input file label is     = %s'          %input_file)
 print('| fake FIPS is set to     = %s'          %fips_fake)
-print('| write output?           = %s'          %write_output)
 print('| fake DATAVALUE set to   = %s'          %my_fake_value)
+print('| write output?           = %s'          %write_output)
 print('+----------------------------------------------------+')
 print('| NOTE: check column labels...')
 print('| Input csv file should have the following labling format:')
@@ -346,7 +351,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
     for LANDISrow in range(total_row_no):  # for each LANDIS row (== one fire) after filtering zeros
 
-        if (LANDISrow/100)==int(LANDISrow/100):
+        if (LANDISrow/100) == int(LANDISrow/100):
 
             print('-> row no = %s from %s' %(LANDISrow,total_row_no))
 

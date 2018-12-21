@@ -123,13 +123,13 @@ FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
-SCCmode_ref_index       = [      0       ,     1      ]  # only a ref for index, not used anywhere
-SCCmode_list            = ['SCC_devided' , 'SCC_total']  
-SCCmode                 = SCCmode_list[SCCmode_index]    
+SCCmode_ref_index           = [      0       ,     1      ]  # only a ref for index, not used anywhere
+SCCmode_list                = ['SCC_devided' , 'SCC_total']  
+SCCmode                     = SCCmode_list[SCCmode_index]    
 
-run_mode_ref_index      = [      0     ,       1      ]  # only a ref for index, not used anywhere
-run_mode_list           = ['month_mode','annual_mode' ]
-run_mode                = run_mode_list[run_mode_index]
+run_mode_ref_index          = [      0     ,       1      ]  # only a ref for index, not used anywhere
+run_mode_list               = ['month_mode','annual_mode' ]
+run_mode                    = run_mode_list[run_mode_index]
 
 region_code_mode_ref_index  = [      0   ,          1     ]  # only a ref for index, not used anywhere
 region_code_mode_list       = ['single_fips' , 'latlon2fips']
@@ -685,11 +685,11 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
         df_master_updated.to_csv( ptday_output_file_FullPath , columns = ptday_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
 
-        print( '-> output file is written as: %s' %ptday_output_file_name )
+        print( '-> PTDAY file is written as: %s' %ptday_output_file_name )
 
         ptinv_df.to_csv( ptinv_output_file_FullPath , columns = ptinv_header_list , sep=',' , index=False , quoting=3 , quotechar='"' ) # last 2 fields for not adding three """ around each field.
 
-        print( '-> output file is written as: %s' %ptinv_output_file_name )
+        print( '-> PTINV file is written as: %s' %ptinv_output_file_name )
 
     else:
 

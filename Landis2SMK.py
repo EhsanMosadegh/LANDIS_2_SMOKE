@@ -118,7 +118,7 @@ fire_modeling_yr        = 16  # year w/o century
 LANDIS_yr               = 30                                      
 Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre 
 input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'          
-my_fake_value           = 1e-30                                
+my_fake_value           = 1.0    # should be real number                                
 FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
@@ -171,7 +171,7 @@ print('+----------------------------------------------------+')
 
 # --- setting directories
 
-work_dir = '/Users/ehsan/Documents/PYTHON_CODES/USFS_fire'
+work_dir = '/Users/ehsan/Documents/Python_projects/USFS_fire'
 repository_name = 'LANDIS_to_SMOKE'
 script_dir = work_dir+'/github/'+repository_name
 input_dir = work_dir+'/inputs'

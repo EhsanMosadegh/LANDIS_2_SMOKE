@@ -7,7 +7,9 @@
 # NOTES:
 #	- each unique fire is defined by = region + fireID
 #   - script does not work for single month; only works for a full year
-#   - each head should have this format: <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr>
+#   - each head should have this format: <POL(all capital)>-<Smoldering OR Flaming>-<LANDIS_yr>
+#   - also change "Day of Fire-30" to FireDay-<LANDIS_yr>
+#   - make sure to have HEAT-30 inside the file
 #   - function latlon2fips is only used for real lat/lon fires inside Landis file, not for fake fires
 #
 # NEED TODO:
@@ -100,32 +102,32 @@ def latlon2fips (ilat , ilon):
 #+--------------------------------------------------------+
 #      select run mode and input parameters               |
 #+--------------------------------------------------------+
-SCCmode_index           = 1  
-run_mode_index          = 1                                      
-region_code_mode_index  = 0                                 
+SCCmode_index           = 1
+run_mode_index          = 1
+region_code_mode_index  = 0
 
-#modeling_month = '08' # ignoire it                     
-POL_input_emis_unit     = 'megagrams'                      
-POL_output_emis_unit    = 'tons'                         
+#modeling_month = '08' # ignoire it
+POL_input_emis_unit     = 'megagrams'
+POL_output_emis_unit    = 'tons'
 emis_conv_factr_2tone   = 1   # unit convert factor for POL emissin; what is POL emission units? kg? tons?
 pixel_area_in_Ha        = 1 # Hactare (= 10^4 m2); convert hactare-> acres; pixel size is 1-hactare; convert to Acres for SMOKE!
-fips_fake               = '"06017"'                                
+fips_fake               = '"06017"'
 
-LANDIS_FireScenario     = 4
-write_output            = 'yes' #   (yes, no)                     
+LANDIS_FireScenario     = 5  # based on num. of scenarios: 1-5
+write_output            = 'yes' #   (yes, no)
 
-fire_modeling_yr        = 16  # year w/o century            
-LANDIS_yr               = 30                                      
-Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre 
-input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.csv'          
-my_fake_value           = 1.0    # should be real number                                
+fire_modeling_yr        = 16  # year w/o century
+LANDIS_yr               = 30
+Ha_to_Acre_rate         = 2.47105 # rate to change to Ha to Acre
+input_file              = 'Scenario_'+str(LANDIS_FireScenario)+'_year_'+str(LANDIS_yr)+'_latlon.StacyUpdate.March.csv'
+my_fake_value           = 1E-30    # should be a real number
 FIPS_not_found          = '"00000"'
 #+--------------------------------------------------------+
 #       select run mode based on here                     |
 #+--------------------------------------------------------+
 SCCmode_ref_index           = [      0       ,     1      ]  # only a ref for index, not used anywhere
-SCCmode_list                = ['SCC_devided' , 'SCC_total']  
-SCCmode                     = SCCmode_list[SCCmode_index]    
+SCCmode_list                = ['SCC_devided' , 'SCC_total']
+SCCmode                     = SCCmode_list[SCCmode_index]
 
 run_mode_ref_index          = [      0     ,       1      ]  # only a ref for index, not used anywhere
 run_mode_list               = ['month_mode','annual_mode' ]
@@ -133,7 +135,7 @@ run_mode                    = run_mode_list[run_mode_index]
 
 region_code_mode_ref_index  = [      0   ,          1     ]  # only a ref for index, not used anywhere
 region_code_mode_list       = ['FixedFIPS' , 'MultiFIPS']
-region_code_mode            = region_code_mode_list[region_code_mode_index]   
+region_code_mode            = region_code_mode_list[region_code_mode_index]
 #+--------------------------------------------------------+
 
 # define run parameters
@@ -164,9 +166,9 @@ print('| fake DATAVALUE set to   = %s'          %my_fake_value)
 print('| write output?           = %s'          %write_output)
 print('+----------------------------------------------------+')
 print('| NOTE: check column labels...')
-print('| Input csv file should have the following labling format:')
-print('| <POL(all capital)>-<Smoldering || Flaming>-<LANDIS_yr> ')
-print('| FireDay-<LANDIS_yr>')
+print('| Columns of input csv file should have the following labling format:')
+print('| "POLLUTANT-Smoldering/Flaming-LANDISyear" e.g: CH4-Flaming-30')
+print('| "FireDay-LANDISyear" AND "HEAT-30" ')
 print('+----------------------------------------------------+')
 
 # --- setting directories
@@ -195,7 +197,7 @@ if os.path.isfile(input_FilePath) == True :
 
 else:
 
-    print('-> WARNING: input file is NOT there, or file name is incorrect!')
+    print('-> WARNING: input file is NOT available, or file name is incorrect!')
     print('-> exiting...')
     raise SystemExit()
 
@@ -428,7 +430,7 @@ elif (user_input == 'y' or user_input == 'Y' or user_input == 'yes'):
 
                 print('-> FIPS was set to fixed region code: %s for LAT: %s and LON: %s ' %( FIPS , LAT , LON ) )
 
-            elif ( region_code_mode == 'MultiFIPS' ) : # estimate and set region code == FIPS from my function 
+            elif ( region_code_mode == 'MultiFIPS' ) : # estimate and set region code == FIPS from my function
 
                 ilat = LAT
                 ilon = LON
